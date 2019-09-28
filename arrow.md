@@ -3,6 +3,74 @@ permalink: /arrow
 layout: default
 ---
 
-# Understanding `join (***)`
+# Understanding "join (\*\*\*)"
 
-Haskell is cool.
+While reading [Ben Lynn's excellent Lambda calculus tutorial][1] I found the following mind boggling expression:
+
+     join (***) (sub x t) <$> rest
+
+For context, `sub` is a currying function that takes three arguments and `rest` is a list. At the time I didn't knew what either `join` or `***` do. But thankfully Haskell has some great code research tools, namely: [Hoogle][2], [Hackage][3], and GHCi's `:i`, `:t`, and `:k` commands. In this article I'll describe the process I used to figure this expression out.
+
+A few quick (G)Hoogle searches show that `join` joins two monads and that `***` joins two `Arrow`s.
+
+    λ> :t join
+    join :: Monad m => m (m a) -> m a
+    λ> :t (***)
+    (***) :: Arrow a => a b c -> a b' c' -> a (b, b') (c, c')
+
+Not immediately clear what combining those two do.
+
+[Browsing their code on Hackage][4] can give insight though. We can see that the `Arrow` typeclass inherits from the `Category` typeclass (aha!) and below its definition we see that `->` is an instance of `Arrow`!
+
+    λ> :i Arrow
+    class Category a => Arrow (a :: * -> * -> *) where
+    ...
+    instance Arrow (->) -- Defined in ‘Control.Arrow’
+
+So, in our case, we can rewrite the type of `***` as (redundant parenthesis for clarity):
+
+    (***) :: (b -> c) -> (b' -> c') -> ((b, b') -> (c, c'))
+
+But `join` acts on monads... perhaps...
+
+    λ> :i (->)
+    ...
+    instance Monad ((->) r) -- Defined in ‘GHC.Base’
+
+Bingo!
+
+We can, once again, rewrite the type of `***` as:
+
+    (***) :: (->) (b -> c) ((->) (b' -> c') ((b, b') -> (c, c')))
+
+Since `join` requires both monadic layers to be equivalent, `(->) (b -> c)` and `(->) (b' -> c')` have to be of the same type. Meaning our `join` is going to take `(b -> c) -> (b -> c) -> (b, b) -> (c, c)` into `(b -> c) -> (b, b) -> (c, c)`, or, more generally:
+
+    λ> :t join (***)
+    join (***) :: Arrow a => a b' c' -> a (b', b') (c', c')
+
+`join (***)` takes a function of `a` to `b` to a function of pairs of `a` to pairs of `b` and its equivalent to the following function.
+
+    tuplify :: (a -> b) -> (a, a) -> (b, b)
+    tuplify f (x, y) = (f x, f y)
+
+For me its incredible to think that Lynn decided to use `join (***)` instead of a simple `tuplify` function. It show how familiar he is with Haskell and the surrounding theory.
+
+---
+
+As a bonus, here are a few cool things you can do with `join`.
+
+    λ> -- `join const` is the identity function.
+    λ> :t join const
+    join const :: b -> b
+    λ> join const 3
+    3
+    λ> -- `join (+)` is `(*2)`
+    λ> join (+) 3
+    6
+    λ> join (+) 27
+    54
+
+[1]: https://crypto.stanford.edu/~blynn/lambda/hm.html
+[2]: https://hoogle.haskell.org
+[3]: https://hackage.haskell.org
+[4]: https://hackage.haskell.org/package/base-4.12.0.0/docs/src/Control.Arrow.html#Arrow
