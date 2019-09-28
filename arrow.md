@@ -1,7 +1,8 @@
 ---
 permalink: /arrow
-layout: post
-title: Understanding `join (***)`
+layout: default
 ---
+
+# Understanding `join (***)`
 
 Haskell is cool.

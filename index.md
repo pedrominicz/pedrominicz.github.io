@@ -2,4 +2,4 @@
 layout: default
 ---
 
-- [Understanding `join (***)`](arrow)
+- [Understanding "join (\*\*\*)"](arrow)
