@@ -5,7 +5,7 @@ layout: default
 
 # Virtual Network with QEMU and Archlinux
 
-There doesn't seem to be any Archlinux-focused virtual network tutorials with QEMU around. This is unfortunate, because Arch uses [`netctl`][1] which is different from the usual `/etc/network/interfaces` shown in Debian/Ubuntu tutorials. The network created here consists of two virtual machines capable connecting to each other through the virtual network while simultaneously being able to access the internet.
+There doesn't seem to be any Archlinux-focused virtual network tutorials with QEMU around. This is unfortunate, because Arch uses [`netctl`][1] which is different from the usual `/etc/network/interfaces` approach shown in Debian/Ubuntu tutorials. In this article we will created a network consisting of two virtual machines capable connecting to each other and accessing the internet.
 
 We use `qemu-img` to create a disk image for our virtual machine. We will use `qcow2` file format which is QEMU's native image format. `qcow2` stands for QEMU Copy On Write and it only allocates memory on the disk when its actually necessary, which makes it equivalent to a dynamically allocated disk on Virtual Box.
 
@@ -14,13 +14,13 @@ We use `qemu-img` to create a disk image for our virtual machine. We will use `q
 
 The empty disk image is around 200K.
 
-Next, we install Archlinux. QEMU defaults to 128M or RAM, which is not enough to boot Arch. Manually set it to something above 512M with the `-m` option. Enabling KVM (Kernel-based Virtual Machine) gives a speed boost from hardware based virtualization.
+Next, we install Archlinux. QEMU defaults to 128M of RAM, which is not enough to boot Arch. Manually set it to something above 512M with the `-m` option. Enabling KVM (Kernel-based Virtual Machine) gives a speed boost from hardware based virtualization.
 
     [user@host ~]$ qemu-system-x86_64 -m 1G -enable-kvm -cpu host -nic user -cdrom archlinux-2019.09.01-x86_64.iso -boot order=d 0.img
 
-`-nic user` option is equivalent to `-netdev user,id=n0 -device e1000,netdev=n0`. `-netdev user,id=n0` creates a network backend which gets the user's internet, thus it doesn't need administrator privilege to run. `-device e1000,netdev=n0` creates a virtual network adapter available for the virtual machine. More QEMU's network configuration options later.
+`-nic user` option is equivalent to `-netdev user,id=n0` and `-device e1000,netdev=n0`. The former creates a network backend which gets the user's internet, thus it doesn't need administrator privilege to run. The latter creates a virtual network adapter available for the virtual machine. More QEMU's network configuration options later.
 
-Inside the virtual machine, we proceed to create a quick Archlinux installation. I will gloss over the process a little bit, please refer [to the wiki][2] for more details.
+Inside the virtual machine, we proceed to create a quick Archlinux installation. I will gloss over the process a little bit, please refer [to the wiki][2] for details.
 
     root@archiso ~ # fdisk /dev/sda
 
@@ -52,7 +52,7 @@ Inside the virtual machine, we proceed to create a quick Archlinux installation.
     root@archiso ~ # mkfs.ext4 /dev/sda1
     ...
 
-We create a single Linux partition on the virtual disk and format it with an ext4 filesystem. Then we mount the system, install Archlinux's base packages and GRUB on the disk, generate mount information about the disk, and `chroot` into it.
+We create a single Linux partition on the virtual disk and format it with an ext4 filesystem. Then we mount the system, install Archlinux's base packages and GRUB on the disk, generate static information about the filesystem (`fstab`), and `chroot` into it.
 
     root@archiso ~ # mount /dev/sda1 /mnt
     root@archiso ~ # pacstrap /mnt base grub
@@ -81,7 +81,7 @@ To complete our super-rushed installation we install GRUB.
     Found fallback initrd image(s) in /boot: initramfs-linux-fallback.img
     done
 
-Now outside our virtual machine, we can create another one using the same process or simply `cp` the first one. (If you do `cp` don't forget to changed the new virtual machine's hostname.)
+Now outside our virtual machine, we can create another one using the same process or simply `cp` the first one. (If you `cp` don't forget to change the new VM's hostname.)
 
 We will configure a simple virtual network on the host system. The network will consist of two TAPs (Terminal Access Points) and a bridge. The virtual machines will connect to the TAPs and the TAPs will be connected by the bridge.
 
@@ -103,9 +103,9 @@ The QEMU options to launch the virtual machines becomes more complicated. Since 
 
     [user@host ~]$ sudo qemu-system-x86_64 -m 1G -enable-kvm -cpu host -nic user -netdev tap,id=t0,ifname=tap0,script=no,downscript=no -device e1000,netdev=t0,mac=00:00:00:00:00:00 0.img
 
-We create a TAP network backend (which needs `sudo` to run) and attach to a virtual network device. `script=no` and `downscript=no` stops QEMU from executing the default scripts to create and delete the TAP. Manually setting the MAC address of the virtual machines is necessary, otherwise QEMU's defaults will cause them to collide.
+We create a TAP network backend (which requires `sudo` to run) and attach to a virtual network device. Since we already configured our network we set `script=no` and `downscript=no` to stop QEMU from executing the default scripts to create and delete the TAP. Manually setting the MAC address of each virtual machine is necessary, otherwise they may collide.
 
-Using `ip link` we can see which network interfaces are available.
+In the VM, we can use `ip link` to see which network interfaces are available.
 
     [root@zero ~]# ip link
     1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN mode DEFAULT group default qlen 1000
@@ -149,7 +149,7 @@ And that is it! After configuring both VMs they should be able to connect to eac
 
 ![](ping.png)
 
-A script to disable the network we built on the host machine, as well as a few helper scripts for dealing with the virtual machines is [available on Gist.][3]
+A few scripts to help with the virtual network and the virtual machines are [available on Gist.][3]
 
 [1]: https://wiki.archlinux.org/index.php/Netctl
 [2]: https://wiki.archlinux.org/index.php/installation_guide
