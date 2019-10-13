@@ -9,27 +9,27 @@ While reading [Ben Lynn's excellent Lambda calculus tutorial][1] I found the fol
 
      join (***) (sub x t) <$> rest
 
-For context, `sub` is a currying function that takes three arguments and `rest` is a list. At the time I didn't knew what either `join` or `***` do. But thankfully Haskell has some great code research tools, namely: [Hoogle][2], [Hackage][3], and GHCi's `:i`, `:t`, and `:k` commands. In this article I'll describe the process I used to figure this expression out.
+For context, `sub` is a function that takes three arguments (i.e. `sub x t` is a function that takes one argument) and `rest` is a list. At the time I didn't knew what either `join` or `***` do. But thankfully Haskell has great documentation and tools. In this article we will use GHCi's `:i` and `:t` commands to figure this expression out.
 
-A few quick (G)Hoogle searches show that `join` joins two monads and that `***` joins two `Arrow`s.
+A few `:t`s (abbreviation for `:type`) shows that `join` removes a monadic layer and that `***` joins two `Arrow`s.
 
     λ> :t join
     join :: Monad m => m (m a) -> m a
     λ> :t (***)
     (***) :: Arrow a => a b c -> a b' c' -> a (b, b') (c, c')
 
-Not immediately clear what combining those two do.
-
-[Browsing their code on Hackage][4] can give insight though. We can see that the `Arrow` typeclass inherits from the `Category` typeclass (aha!) and below its definition we see that `->` is an instance of `Arrow`!
+Using `:i` (abbreviation for `:info`) we see that the `Arrow` typeclass inherits from the `Category` typeclass (aha!). But more useful information can be found below: `->` is an instance of `Arrow`!
 
     λ> :i Arrow
     class Category a => Arrow (a :: * -> * -> *) where
     ...
     instance Arrow (->) -- Defined in ‘Control.Arrow’
 
-So, in our case, we can rewrite the type of `***` as (redundant parenthesis for clarity):
+So, in our case, we can rewrite the type of `***` as:
 
     (***) :: (b -> c) -> (b' -> c') -> ((b, b') -> (c, c'))
+
+(Redundant parenthesis for clarity.)
 
 But `join` acts on monads... perhaps...
 
@@ -43,7 +43,7 @@ We can, once again, rewrite the type of `***` as:
 
     (***) :: (->) (b -> c) ((->) (b' -> c') ((b, b') -> (c, c')))
 
-Since `join` requires both monadic layers to be equivalent, `(->) (b -> c)` and `(->) (b' -> c')` have to be of the same type. Meaning our `join` is going to take `(b -> c) -> (b -> c) -> (b, b) -> (c, c)` into `(b -> c) -> (b, b) -> (c, c)`, or, more generally:
+Since `join` requires both monadic layers to be equivalent, `(->) (b -> c)` and `(->) (b' -> c')` have to be of the same monad. Meaning our `join` is going to take `(b -> c) -> (b -> c) -> (b, b) -> (c, c)` into `(b -> c) -> (b, b) -> (c, c)`, or, more generally:
 
     λ> :t join (***)
     join (***) :: Arrow a => a b' c' -> a (b', b') (c', c')
@@ -53,7 +53,7 @@ Since `join` requires both monadic layers to be equivalent, `(->) (b -> c)` and 
     tuplify :: (a -> b) -> (a, a) -> (b, b)
     tuplify f (x, y) = (f x, f y)
 
-For me its incredible to think that Lynn decided to use `join (***)` instead of a simple `tuplify` function. It show how familiar he is with Haskell and the surrounding theory.
+For me its incredible to think that Lynn decided to use `join (***)` instead of writing a simple `tuplify` function. It show how familiar he is with Haskell and the surrounding theory.
 
 ---
 
@@ -71,6 +71,3 @@ As a bonus, here are a few cool things you can do with `join`.
     54
 
 [1]: https://crypto.stanford.edu/~blynn/lambda/hm.html
-[2]: https://hoogle.haskell.org
-[3]: https://hackage.haskell.org
-[4]: https://hackage.haskell.org/package/base-4.12.0.0/docs/src/Control.Arrow.html#Arrow
