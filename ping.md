@@ -149,7 +149,7 @@ And that is it! After configuring both VMs they should be able to connect to eac
 
 ![](ping.png)
 
-A few scripts to help with the virtual network and the virtual machines are [available on Gist.][3]
+A few scripts to help with the network and the virtual machines are [available on Gist.][3]
 
 [1]: https://wiki.archlinux.org/index.php/Netctl
 [2]: https://wiki.archlinux.org/index.php/installation_guide

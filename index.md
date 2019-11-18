@@ -2,5 +2,5 @@
 layout: default
 ---
 
-- [Understanding "join (\*\*\*)"](arrow)
+- [Understanding "join (\*\*\*)"](join)
 - [Virtual Network with QEMU and Archlinux](ping)

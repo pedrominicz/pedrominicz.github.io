@@ -1,5 +1,5 @@
 ---
-permalink: /arrow
+permalink: /join
 layout: default
 ---
 
