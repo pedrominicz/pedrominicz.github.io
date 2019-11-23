@@ -147,7 +147,7 @@ Note that after enabling each interface we also start them because "enable" only
 
 And that is it! After configuring both VMs they should be able to connect to each other. Here is a screenshot of both virtual machines communicating:
 
-![](ping.png)
+![](/ping.png)
 
 A few scripts to help with the network and the virtual machines are [available on Gist.][3]
 
