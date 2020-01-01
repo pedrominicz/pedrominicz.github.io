@@ -3,7 +3,7 @@ permalink: /logic
 layout: default
 ---
 
-# Embedding a micro logic programming language in Haskell
+# Embedding a logic programming language in Haskell
 
 One of the ideas behind this "blog" is to share the resources I find while studying. As such, this post exists not for its originality, but for me to have a chance to write about one of my favorite pieces of code. We will be implementing μKanren, a minimal logic embedded programming language, in Haskell. You can find the original Scheme implementation can be found on [the paper][1].
 
@@ -44,7 +44,7 @@ Now we can define our unification function. Given a substitution and two terms, 
       go t (Var v) = Just [(v, t)]
       go t t' = Nothing
 
-Our terms are so simple that no recursion is necessary.
+Our terms are so simple that no recursion is needed.
 
 `go` returns a new constraint if necessary or fails with `Nothing`, this new constraint is then added to the substitution. `go` first checks if the two terms are equal, if they are no new constraint is added. If one of the terms is a variable add a new constraint and fail otherwise. The last clause is only reached if both terms are different atoms. Note that `go` only works because the terms have been pruned beforehand.
 
@@ -74,10 +74,55 @@ The empty list represents failure: there are no possible future states for a fai
 Next comes the logical connectives for conjunction (and) and disjunction (or).
 
     conj :: Pred -> Pred -> Pred
-    conj p p' = \s -> p s >>= p'
+    conj p q = \s -> p s >>= q
 
     disj :: Pred -> Pred -> Pred
-    disj p p' = \s -> p s ++ p' s
+    disj p q = \s -> p s ++ q s
+
+Conjunction uses the `(>>=)` for the list monad. For lists, `(>>=)` is equivalent to `\x f -> concat $ map f x`, which is exactly the behavior we want. The second predicate is applied to every output of the first. If the first predicate fails, there is nothing to apply to the second predicate, and an empty list is returned. If the second predicate fails for some input, it returns the empty list, which disappears after `concat`.
+
+Disjunction is simpler. The outputs of the first and second predicates are simply appended. Note that `(++)` is equivalent to depth-first search, like in Prolog. If the first predicate returns and infinite list, no result from the second is ever considered.
+
+And that is it! We have implemented every feature of μKanren!
+
+We present few utility functions before showing some examples.
+
+    true :: Pred
+    true = \s -> [s]
+
+    false :: Pred
+    false = \s -> []
+
+    solve :: Pred -> [Subst]
+    solve p = map fst $ p ([], 0)
+
+`true` is trivially satisfiable, `false` fails no matter what, and solve is a nice convenience.
+
+---
+
+Given the simplicity of our language, it is hard to come up with elaborate examples. We can, however, demonstrate what can be called the "essence" of logic programming.
+
+    λ> a = Atom "a"
+    λ> b = Atom "b"
+    λ> solve $ fresh $ \x -> x === a
+    [[(0,Atom "a")]]
+    λ> solve $ fresh $ \x -> conj (x === a) (x === b)
+    []
+    λ> solve $ fresh $ \x -> disj (x === a) (x === b)
+    [[(0,Atom "a")],[(0,Atom "b")]]
+
+As expected, `x` can't be `a` and `b` at the same time. Disjunction gives two answers as expected.
+
+    λ> as x = disj (x === a) (as x)
+    λ> take 4 $ solve $ fresh $ \x -> as x
+    [[(0,Atom "a")],[(0,Atom "a")],[(0,Atom "a")],[(0,Atom "a")]]
+
+We can make recursive predicated by using recursion in the host language. `as` generates an infinite list of `a`s. Because of how disjunction was implemented, this means that `x` will never unify with `b` in the following example:
+
+    λ> take 4 $ solve $ fresh $ \x -> disj (as x) (x === b)
+    [[(0,Atom "a")],[(0,Atom "a")],[(0,Atom "a")],[(0,Atom "a")]]
+
+That is all I have for today. I hope to write more about unification, logic, and programming in the future!
 
 [1]: http://webyrd.net/scheme-2013/papers/HemannMuKanren2013.pdf
 [2]: https://github.com/seantalts/hasktrip/blob/master/doc/MicroKanren.md
