@@ -47,10 +47,11 @@ Things have certainly gotten a lot more interesting. `pure` and `(<*>)` are the 
 
 With them we can define the I combinator:
 
-    i :: a -> a
-    i = pure <*> (pure :: a -> b -> a)
+    k :: a -> b -> a
+    k = pure
 
-We must give the type-checker a bit of help with the second `pure` though.
+    i :: a -> a
+    i = k <*> k
 
 With applicative functors out of our way, we define a monad instance for `(->) a` which will give us access to that sweet `do` notation. Hopefully things are about to get exciting.
 

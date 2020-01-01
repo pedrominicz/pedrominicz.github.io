@@ -69,5 +69,13 @@ As a bonus, here are a few cool things you can do with `join`.
     6
     λ> join (+) 27
     54
+    λ> -- `(>>= id)` is `join`
+    λ> :t (>>= id)
+    (>>= id) :: Monad m => m (m b) -> m b
+
+`join` is also an alternative for `(>>=)` when defining a monad. `(>>=)` can be defined in terms of `join`.
+
+    λ> :t \x f -> join $ fmap f x
+    \x f -> join $ fmap f x :: Monad m => m a1 -> (a1 -> m a2) -> m a2
 
 [1]: https://crypto.stanford.edu/~blynn/lambda/hm.html
