@@ -122,7 +122,7 @@ We can make recursive predicated by using recursion in the host language. `as` g
     λ> take 4 $ solve $ fresh $ \x -> disj (as x) (x === b)
     [[(0,Atom "a")],[(0,Atom "a")],[(0,Atom "a")],[(0,Atom "a")]]
 
-That is all I have for today. I hope to write more about unification, logic, and programming in the future!
+That is all I have for today. I hope to write more about unification, logic, and programming languages in the future!
 
 [1]: http://webyrd.net/scheme-2013/papers/HemannMuKanren2013.pdf
 [2]: https://github.com/seantalts/hasktrip/blob/master/doc/MicroKanren.md
