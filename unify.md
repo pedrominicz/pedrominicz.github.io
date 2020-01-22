@@ -22,9 +22,9 @@ To unify two terms we recursively descend each node comparing them. If the nodes
 Things will become clear when we start implementing. But before that, some helper machinery is required.
 
     data Binding = Binding
-        { next     :: Int
-        , bindings :: IM.IntMap Term
-        }
+      { next     :: Int
+      , bindings :: IM.IntMap Term
+      }
 
     type Unify a = StateT Binding Maybe a
 
@@ -38,6 +38,14 @@ Unification will happen inside the `Unify` monad. The `Binding` state keeps trac
       s { bindings = IM.insert v t (bindings s) }
 
 Looking up variables and binding them is straight forward. `lookupVar` uses the [`gets`][3] function, which some may be unfamiliar with (I was a while ago), but which does the job just perfectly.
+
+One last helper function and we are good to go. `occurs` implements the infamous occurs check, source of performance issues in unification implementations.
+
+    occurs :: Int -> Term -> Bool
+    occurs v (Term t ts) = any (occurs v) ts
+    occurs v (Var v')    = v == v'
+
+A variable occurs in a term if the term is that variable or if it occurs in any of its children.
 
 [1]: /logic
 [2]: https://hackage.haskell.org/package/base/docs/Control-Applicative.html#t:Alternative
