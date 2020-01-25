@@ -37,13 +37,13 @@ Let's continue with an applicative functor instance:
       pure :: a -> f a
       (<*>) :: f (a -> b) -> f a -> f b
 
-    -- instance Applicative ((->) a) where
-    --   pure = const
-    --   f <*> g = \x -> f x (g x)
+    instance {-# OVERLAPPING #-} Applicative ((->) a) where
+      pure = const
+      f <*> g = \x -> f x (g x)
 
 Things have certainly gotten a lot more interesting. `pure` and `(<*>)` are the S and K combinators from the SKI combinator calculus!
 
-(The reason why the applicative instance of `(->) a` is commented will become clear later.)
+(The reason why the applicative instance of `(->) a` is `OVERLAPPING` will become clear later.)
 
 With them we can define the I combinator:
 
@@ -80,11 +80,11 @@ which desugars to:
 
 which is just a possible default implementation of `(<*>)` for any given monad:
 
-    instance (Functor m, Monad m) => Applicative m where
+    instance {-# OVERLAPPABLE #-} (Functor m, Monad m) => Applicative m where
       pure = return
       f <*> x = f >>= \f -> x >>= \x -> return (f x)
 
-This applicative functor instance is the reason for the extensions and why the applicative instance of `(->) a` was commented out. Since `(->) a` is a monad, and every monad is an applicative functor, defining applicative for `(->) a` would create an overlapping instance.
+This applicative instance is the reason for the extensions and the `OVERLAPPING` in the applicative instance of `(->) a`. Since `(->) a` is a monad, and every monad is an applicative functor, defining applicative for `(->) a` would create an overlapping instance.
 
 I didn't manage to think of any useful examples of `do` notation for the `(->) a` monad. If you know of any, please let me know on [Twitter][2]. I would love to see more of this amazing monad.
 
