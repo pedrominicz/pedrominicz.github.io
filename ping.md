@@ -18,7 +18,7 @@ Next, we install Archlinux. QEMU defaults to 128M of RAM, which is not enough to
 
     [user@host ~]$ qemu-system-x86_64 -m 1G -enable-kvm -cpu host -nic user -cdrom archlinux-2020.01.01-x86_64.iso -boot order=d 0.img
 
-`-nic user` option is equivalent to `-netdev user,id=n0` and `-device e1000,netdev=n0`. The former creates a network backend which gets the user's internet, thus it doesn't need administrator privilege to run. The latter creates a virtual network adapter available for the virtual machine. More QEMU's network configuration options later.
+`-nic user` option is equivalent to `-netdev user,id=n0` and `-device e1000,netdev=n0`. The former creates a network backend which gets the user's internet, thus it doesn't need administrator privilege to run. The latter creates a virtual network adapter available for the virtual machine.
 
 Inside the virtual machine, we proceed to create a quick Archlinux installation. I will gloss over the process a little bit, please refer [to the wiki][2] for details.
 
@@ -52,7 +52,7 @@ Inside the virtual machine, we proceed to create a quick Archlinux installation.
     root@archiso ~ # mkfs.ext4 /dev/sda1
     ...
 
-We create a single Linux partition on the virtual disk and format it with an ext4 filesystem. Then we mount the system, install Archlinux's base packages, GRUB, and vi (you may prefer using nano) on the disk, generate static information about the filesystem (`fstab`), and `chroot` into it.
+We create a single Linux partition on the virtual disk and format it with an ext4 filesystem. Then we mount the system, install Archlinux's base packages, Linux, GRUB, and vi (you may prefer using nano), generate static information about the filesystem (`fstab`), and `chroot` into it.
 
     root@archiso ~ # mount /dev/sda1 /mnt
     root@archiso ~ # pacstrap /mnt base linux linux-firmware grub vi
@@ -63,6 +63,7 @@ We create a single Linux partition on the virtual disk and format it with an ext
 The only configuration we do in our system is generating a locale and changing the hostname.
 
     [root@archiso /]# vi /etc/locale.gen # Uncomment `en_US.UTF-8 UTF-8`
+    ...
     [root@archiso /]# locale-gen
     Generating locales...
       en_US.UTF-8... done
@@ -101,9 +102,9 @@ That is all the network configuration we will do. We just need to setup the virt
 
 The QEMU options to launch the virtual machines becomes more complicated. Since we want the VMs to access the internet and the virtual network, we need to configure two network devices.
 
-    [user@host ~]$ sudo qemu-system-x86_64 -m 1G -enable-kvm -cpu host -nic user -netdev tap,id=t0,ifname=tap0,script=no,downscript=no -device e1000,netdev=t0,mac=00:00:00:00:00:00 0.img
+    [user@host ~]$ sudo qemu-system-x86_64 -m 1G -enable-kvm -cpu host -nic user -netdev tap,id=t0,ifname=tap0,script=no,downscript=no -device e1000,netdev=t0,mac=52:54:00:12:34:56 0.img
 
-We create a TAP network backend (which requires `sudo` to run) and attach to a virtual network device. Since we already configured our network we set `script=no` and `downscript=no` to stop QEMU from executing the default scripts to create and delete the TAP. Manually setting the MAC address of each virtual machine is necessary, otherwise they may collide.
+We create a TAP network backend (which requires `sudo` to run) and attach to a virtual network device. Since we already configured our network we set `script=no` and `downscript=no` to stop QEMU from executing the default scripts to create and delete the TAP. Manually setting the MAC address of each virtual machine is necessary, otherwise they may collide (it should begin with `52:54:00`, as it is the canonical [OUI][3] for QEMU MAC addresses).
 
 In the VM, we can use `ip link` to see which network interfaces are available.
 
@@ -149,8 +150,9 @@ And that is it! After configuring both VMs they should be able to connect to eac
 
 ![](/ping.png)
 
-A few scripts to help with the network and the virtual machines are [available on Gist.][3]
+A few scripts to help with the network and the virtual machines are [available on Gist.][4]
 
 [1]: https://wiki.archlinux.org/index.php/Netctl
 [2]: https://wiki.archlinux.org/index.php/installation_guide
-[3]: https://gist.github.com/pedrominicz/2c47652e7957ae4f19be2b2b77c718d3
+[3]: https://en.wikipedia.org/wiki/Organizationally_unique_identifier
+[4]: https://gist.github.com/pedrominicz/2c47652e7957ae4f19be2b2b77c718d3
