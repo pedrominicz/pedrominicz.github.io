@@ -16,7 +16,7 @@ The empty disk image is around 200K.
 
 Next, we install Archlinux. QEMU defaults to 128M of RAM, which is not enough to boot Arch. Manually set it to something above 512M with the `-m` option. Enabling KVM (Kernel-based Virtual Machine) gives a speed boost from hardware based virtualization.
 
-    [user@host ~]$ qemu-system-x86_64 -m 1G -enable-kvm -cpu host -nic user -cdrom archlinux-2019.09.01-x86_64.iso -boot order=d 0.img
+    [user@host ~]$ qemu-system-x86_64 -m 1G -enable-kvm -cpu host -nic user -cdrom archlinux-2020.01.01-x86_64.iso -boot order=d 0.img
 
 `-nic user` option is equivalent to `-netdev user,id=n0` and `-device e1000,netdev=n0`. The former creates a network backend which gets the user's internet, thus it doesn't need administrator privilege to run. The latter creates a virtual network adapter available for the virtual machine. More QEMU's network configuration options later.
 
@@ -52,15 +52,15 @@ Inside the virtual machine, we proceed to create a quick Archlinux installation.
     root@archiso ~ # mkfs.ext4 /dev/sda1
     ...
 
-We create a single Linux partition on the virtual disk and format it with an ext4 filesystem. Then we mount the system, install Archlinux's base packages and GRUB on the disk, generate static information about the filesystem (`fstab`), and `chroot` into it.
+We create a single Linux partition on the virtual disk and format it with an ext4 filesystem. Then we mount the system, install Archlinux's base packages, GRUB, and vi (you may prefer using nano) on the disk, generate static information about the filesystem (`fstab`), and `chroot` into it.
 
     root@archiso ~ # mount /dev/sda1 /mnt
-    root@archiso ~ # pacstrap /mnt base grub
+    root@archiso ~ # pacstrap /mnt base linux linux-firmware grub vi
     ...
     root@archiso ~ # genfstab -U /mnt >>/mnt/etc/fstab
     root@archiso ~ # arch-chroot /mnt
 
-The only configurations we do in our system is generate a locale and change the hostname.
+The only configuration we do in our system is generating a locale and changing the hostname.
 
     [root@archiso /]# vi /etc/locale.gen # Uncomment `en_US.UTF-8 UTF-8`
     [root@archiso /]# locale-gen
@@ -81,7 +81,7 @@ To complete our super-rushed installation we install GRUB.
     Found fallback initrd image(s) in /boot: initramfs-linux-fallback.img
     done
 
-Now outside our virtual machine, we can create another one using the same process or simply `cp` the first one. (If you `cp` don't forget to change the new VM's hostname.)
+We can create another virtual machine using the same process or simply `cp`-ing the first one. (If you `cp` don't forget to change the new VM's hostname.)
 
 We will configure a simple virtual network on the host system. The network will consist of two TAPs (Terminal Access Points) and a bridge. The virtual machines will connect to the TAPs and the TAPs will be connected by the bridge.
 
