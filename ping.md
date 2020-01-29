@@ -3,9 +3,9 @@ permalink: /ping
 layout: default
 ---
 
-# Virtual Network with QEMU and Archlinux
+# Virtual Network with QEMU, Archlinux, and netctl
 
-There doesn't seem to be any Archlinux-focused virtual network tutorials with QEMU around. This is unfortunate, because Arch uses [`netctl`][1] which is different from the usual `/etc/network/interfaces` approach shown in Debian/Ubuntu tutorials. In this article we will created a network consisting of two virtual machines capable connecting to each other and accessing the internet.
+There doesn't seem to be any Archlinux-focused virtual network tutorials with QEMU around. This is unfortunate, because many Arch systems use [netctl][1] (it used to be part of base) which is different from the usual `/etc/network/interfaces` approach shown in Debian/Ubuntu tutorials. In this article we will created a network consisting of two virtual machines capable connecting to each other and accessing the internet.
 
 We use `qemu-img` to create a disk image for our virtual machine. We will use `qcow2` file format which is QEMU's native image format. `qcow2` stands for QEMU Copy On Write and it only allocates memory on the disk when its actually necessary, which makes it equivalent to a dynamically allocated disk on Virtual Box.
 
@@ -52,10 +52,10 @@ Inside the virtual machine, we proceed to create a quick Archlinux installation.
     root@archiso ~ # mkfs.ext4 /dev/sda1
     ...
 
-We create a single Linux partition on the virtual disk and format it with an ext4 filesystem. Then we mount the system, install Archlinux's base packages, Linux, GRUB, and vi (you may prefer using nano), generate static information about the filesystem (`fstab`), and `chroot` into it.
+We create a single Linux partition on the virtual disk and format it with an ext4 filesystem. Then we mount the system, install Archlinux's base packages, Linux, GRUB, netctl and vi (you may prefer using nano), generate static information about the filesystem (`fstab`), and `chroot` into it.
 
     root@archiso ~ # mount /dev/sda1 /mnt
-    root@archiso ~ # pacstrap /mnt base linux linux-firmware grub vi
+    root@archiso ~ # pacstrap /mnt base linux linux-firmware grub netctl vi
     ...
     root@archiso ~ # genfstab -U /mnt >>/mnt/etc/fstab
     root@archiso ~ # arch-chroot /mnt
@@ -102,7 +102,7 @@ That is all the network configuration we will do. We just need to setup the virt
 
 The QEMU options to launch the virtual machines becomes more complicated. Since we want the VMs to access the internet and the virtual network, we need to configure two network devices.
 
-    [user@host ~]$ sudo qemu-system-x86_64 -m 1G -enable-kvm -cpu host -nic user -netdev tap,id=t0,ifname=tap0,script=no,downscript=no -device e1000,netdev=t0,mac=52:54:00:12:34:56 0.img
+    [user@host ~]$ sudo qemu-system-x86_64 -m 1G -enable-kvm -cpu host -nic user -netdev tap,id=t0,ifname=tap0,script=no,downscript=no -device e1000,netdev=t0,mac=52:54:00:00:00:00 0.img
 
 We create a TAP network backend (which requires `sudo` to run) and attach to a virtual network device. Since we already configured our network we set `script=no` and `downscript=no` to stop QEMU from executing the default scripts to create and delete the TAP. Manually setting the MAC address of each virtual machine is necessary, otherwise they may collide (it should begin with `52:54:00`, as it is the canonical [OUI][3] for QEMU MAC addresses).
 
@@ -114,7 +114,7 @@ In the VM, we can use `ip link` to see which network interfaces are available.
     2: ens3: <BROADCAST,MULTICAST> mtu 1500 qdisc fq_codel state DOWN mode DEFAULT group default qlen 1000
         link/ether 52:54:00:12:34:56 brd ff:ff:ff:ff:ff:ff
     3: ens4: <BROADCAST,MULTICAST> mtu 1500 qdisc fq_codel state DOWN mode DEFAULT group default qlen 1000
-        link/ether 00:00:00:00:00:02 brd ff:ff:ff:ff:ff:ff
+        link/ether 52:54:00:00:00:00 brd ff:ff:ff:ff:ff:ff
 
 `ens3` is connected to the internet and `ens4` to the local virtual network. Crating a configuration file for each allows `netctl` to automatically start both interfaces on boot.
 
