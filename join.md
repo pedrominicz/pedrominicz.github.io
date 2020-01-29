@@ -29,7 +29,7 @@ So, in our case, we can rewrite the type of `***` as:
 
     (***) :: (b -> c) -> (b' -> c') -> ((b, b') -> (c, c'))
 
-(Redundant parenthesis for clarity.)
+(Redundant parenthesis added for clarity.)
 
 But `join` acts on monads... perhaps...
 

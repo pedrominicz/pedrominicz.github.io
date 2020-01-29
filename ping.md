@@ -1,6 +1,7 @@
 ---
 permalink: /ping
 layout: default
+date: 2020-01-28
 ---
 
 # Virtual Network with QEMU, Archlinux, and netctl

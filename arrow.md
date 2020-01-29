@@ -5,12 +5,9 @@ layout: default
 
 # Fun with the Function Arrow Monad
 
-One of the things that surprised me while learning Haskell is that `(->) a` is a monad. It was clear that it was possible as soon as I saw it, but I wouldn't have thought of it myself.
+One of the things that surprised me while studying Haskell is that `(->) a` is a monad. It made some sort of instinctive sense after I seeing it, but I don't think I would have thought of it myself.
 
-However, how can this monad be used in practice? One use would be to pass functions accept generic monads. An example of such functions, namely, `join` and `(***)`, was considered in [a previous post][1]. Another obvious example would be `forever` from `Control.Monad`.
-
-But when I think monads in Haskell I think `do` notation. In this post we will define the `(->) a` monad ourselves and explored a bit of the
-weirdness of its `do` notation.
+How can this monad be used? An example, namely, `join (***)`, was considered in [a previous post][1]. But when I think monads in Haskell I think `do` notation. In this post we will define the `(->) a` monad ourselves and explored a bit of the weirdness of its `do` notation.
 
     {-# LANGUAGE FlexibleInstances #-}
     {-# LANGUAGE UndecidableInstances #-}
@@ -21,7 +18,7 @@ weirdness of its `do` notation.
 
 We hide `Functor`, `Applicative`, and `Monad` because we will implement our own hierarchy, similar to the one before the Functor-Applicative-Monad proposal. `FlexibleInstances` and `UndecidableInstances` will be necessary for later shenanigans.
 
-First, we define functors and an instance of functor for our monad. `fmap` for `(->) a` is pretty lame, it's just `(.)`:
+First, we define `Functor` and an instance of it for our monad. `fmap` is just `(.)`, pretty lame.
 
     class Functor f where
       fmap :: (a -> b) -> f a -> f b
@@ -29,9 +26,9 @@ First, we define functors and an instance of functor for our monad. `fmap` for `
     instance Functor ((->) a) where
       fmap = (.)
 
-This can be easily excused, however. Lists are another type constructor that have this problem (their `fmap` is just `map`, boring!), yet their monad instance represents non-deterministic computations (awesome!).
+This can be easily excused, however. Lists are another type constructor that have this problem (their `fmap` is just `map`, boring!), yet their monad instance simulate non-deterministic computations (awesome!).
 
-Let's continue with an applicative functor instance:
+Let's continue with the `Applicative` instance:
 
     class Functor f => Applicative f where
       pure :: a -> f a
@@ -41,7 +38,7 @@ Let's continue with an applicative functor instance:
       pure = const
       f <*> g = \x -> f x (g x)
 
-Things have certainly gotten a lot more interesting. `pure` and `(<*>)` are the S and K combinators from the SKI combinator calculus!
+Things have certainly got a lot more interesting. `pure` and `(<*>)` are the S and K combinators from the SKI combinator calculus!
 
 (The reason why the applicative instance of `(->) a` is `OVERLAPPING` will become clear later.)
 
@@ -63,7 +60,7 @@ With applicative functors out of our way, we define a monad instance for `(->) a
       return = const
       f >>= g = \x -> g (f x) x
 
-Oh, no! Things have gotten kind of boring again! `(>>=)` is just the S combinator with shuffled parameter order!
+Oh, no! Things have got kind of boring again! `(>>=)` is just the S combinator with shuffled parameter order!
 
 However, we finally acquired `do` notation, which allows us to write some weird things:
 
