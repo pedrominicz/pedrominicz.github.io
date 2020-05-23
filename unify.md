@@ -115,7 +115,13 @@ And that is it! Complete unification of non-trivial terms!
 
 An interesting challenge is to add support for such non-trivial terms to the implementation of μKanren shown in the [previous post][1]. Examples of unification in action may be found on [this Gist][4].
 
+---
+
+I have to plug Ben Lynn's tutorial on type inference [Outcoding UNIX geniuses][5] as it was a key resource I used when first implementing Hindley-Milner type inference. The other key resource was [the Wikipedia article][6].
+
 [1]: /logic
 [2]: https://hackage.haskell.org/package/base/docs/Control-Applicative.html#t:Alternative
 [3]: https://hackage.haskell.org/package/mtl/docs/Control-Monad-State-Lazy.html#v:gets
 [4]: https://gist.github.com/pedrominicz/c0b522b33e1e5be16785754d2060050c
+[5]: https://crypto.stanford.edu/~blynn/lambda/hm.html
+[6]: https://en.wikipedia.org/wiki/Hindley%E2%80%93Milner_type_system
