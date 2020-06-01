@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title> Respostas </title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  </head>
+  <body>
+
+    <!-- Comumente não deixaria a barra de navegação _hardcoded_, porém serve para este pequeno projeto. -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+      <a class="navbar-brand" href="cadastro.html#">Pedro Minicz</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="respostas.html">Respostas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="bhaskara.html">Bhaskara</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="cadastro.html">Cadastro</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main role="main">
+      <div class="container">
+
+      
+
+<form action="cadastro.html" method="get">
+
+  <div class="form-group">
+    <label for="name">Nome</label>
+    <input type="text" class="form-control" name="name" id="name" maxlength="127" oninvalid="setCustomValidity('Por favor, insira um noma válido.')" oninput="setCustomValidity('')" required>
+  </div>
+
+  <div class="form-group">
+    <label for="email">E-mail</label>
+    <input type="email" class="form-control" name="email" id="email" maxlength="127" oninvalid="setCustomValidity('Por favor, insira um e-mail válido.')" oninput="setCustomValidity('')" required>
+  </div>
+
+  <div class="form-group">
+    <label for="phone">Telefone</label>
+    <input type="text" class="form-control" name="phone" id="phone" maxlength="25" oninvalid="setCustomValidity('Por favor, insira um telefone válido.')" oninput="setCustomValidity('')" required>
+  </div>
+
+  <div class="form-group">
+    <label for="age">Idade</label>
+    <input type="number" class="form-control" name="age" id="age" min="0" max="99" oninvalid="setCustomValidity('Por favor, insira uma idade válida.')" oninput="setCustomValidity('')" required>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Enviar</button>
+
+</form>
+
+      </div>
+    </main>
+
+    <script type="text/javascript">
+    'use strict';
+
+// Está função é usada para criar filtros que verificam enquanto o usuário
+// digita.
+const setFilter = (element, filter) => {
+  ['input', 'keydown', 'keyup', 'mousedown', 'mouseup', 'select', 'contextmenu', 'drop'].forEach((event) => {
+    element.addEventListener(event, function() {
+      if(filter(this.value)) {
+        this.oldValue = this.value;
+        this.oldSelectionStart = this.selectionStart;
+        this.oldSelectionEnd = this.selectionEnd;
+      } else if(this.hasOwnProperty('oldValue')) {
+        this.value = this.oldValue;
+        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+      } else {
+        this.value = '';
+      }
+    });
+  });
+}
+
+setFilter(document.getElementById('name'), (value) => {
+  // Um nome só deve conter letras e espaços.
+  const re1 = /^[ A-Za-z]*$/;
+  // Um nome _não_ deve conter dois (ou mais) espaços em seguida.
+  const re2 = /  /;
+
+  return re1.test(value) && !re2.test(value);
+});
+
+setFilter(document.getElementById('phone'), (value) => {
+  // Um telefone pode conter números, parêntesis, espaços, traços e sinais de
+  // mais.
+  const re1 = /^[ -()+0-9]*$/;
+  // Um telefone _não_ deve conter dois (ou mais) espaços em seguida.
+  const re2 = /  /;
+
+  // Excluindo os parêntesis e sinais, um telefone deve conter no máximo 15
+  // digitos ([referência](https://en.wikipedia.org/wiki/E.164)).
+  if(value.replace(/[^0-9]/g, '').length > 15) {
+    return false;
+  }
+
+  return re1.test(value) && !re2.test(value);
+});
+
+setFilter(document.getElementById('age'), (value) => {
+  // Uma idade contém no máximo dois digitos.
+  const re = /^[0-9]{0,2}$/;
+
+  return re.test(value);
+});
+
+const url = new URL(window.location.href);
+
+const name  = document.getElementById('name');
+const email = document.getElementById('email');
+const phone = document.getElementById('phone');
+const age   = document.getElementById('age');
+
+if(url.searchParams.get('name')) {
+  name.value = url.searchParams.get('name');
+}
+
+if(url.searchParams.get('email')) {
+  email.value = url.searchParams.get('email');
+}
+
+if(url.searchParams.get('phone')) {
+  phone.value = url.searchParams.get('phone');
+
+  const length = phone.value.replace(/[^0-9]/g, '').length;
+
+  if(length > 15 || length < 8) {
+    phone.setCustomValidity('Por favor, insira um telefone válido.');
+  }
+}
+
+if(url.searchParams.get('age')) {
+  age.value = url.searchParams.get('age');
+}
+    </script>
+
+    <!-- Bootstrap precisa de jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </body>
+</html>

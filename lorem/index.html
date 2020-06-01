@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title> Respostas </title>
+
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  </head>
+  <body>
+
+    <!-- Comumente não deixaria a barra de navegação _hardcoded_, porém serve para este pequeno projeto. -->
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+      <a class="navbar-brand" href="index.html#">Pedro Minicz</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="respostas.html">Respostas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="bhaskara.html">Bhaskara</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="cadastro.html">Cadastro</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main role="main">
+      <div class="container">
+
+      <!-- `accordion` fica elegante. -->
+<div class="accordion text-justify" id="questions">
+
+  <div class="card">
+    <div class="card-header">
+      <!-- Note o uso da variável `loop.index`. Ela é criada pelo próprio Twig. -->
+      <button
+        class="btn btn-link text-left"
+        type="button"
+        data-toggle="collapse"
+        data-target="#question1">
+      <!-- `|raw` é necessário porque `question` contém HTML. -->
+      Em ambiente profissional, seu desempenho é melhor trabalhando com autonomia ou sobre orientação constante?
+      </button>
+    </div>
+    <div id="question1" class="collapse" data-parent="#questions">
+      <div class="card-body"><p>Gosto de ter metas e prazos bem definidos. Trabalho bem a sós, precisando de poucas orientações após compreender o objetivo. Naturalmente procuro <em>feedback</em> constante, mesmo que não seja exigido, tanto do supervisor quanto dos demais membros da equipe.</p>
+<p>Já trabalhei sem um objetivo ou prazo bem definido. Apesar que meu supervisor na época apreciou meu trabalho, não tive uma boa experiência. Senti-me perdido em trivialidades por não ter um objetivo bem traçado.</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <!-- Note o uso da variável `loop.index`. Ela é criada pelo próprio Twig. -->
+      <button
+        class="btn btn-link text-left"
+        type="button"
+        data-toggle="collapse"
+        data-target="#question2">
+      <!-- `|raw` é necessário porque `question` contém HTML. -->
+      Conte sobre algum objetivo que perseguiu. O que sacrificou? Conseguiu o esperado?
+      </button>
+    </div>
+    <div id="question2" class="collapse" data-parent="#questions">
+      <div class="card-body"><p>O maior objetivo de vida que realizei foi aprender japonês. Comecei a estudar em meados de 2015 e não parei desde então. Sacrifiquei incontáveis estudando. Comecei a estudar por causa de uma paixão: assistir anime, mas com o passar dos anos deixei-la para trás, ficando somente com o idioma. Tive a oportunidade de ler ótimos livros graças a saber japonês (<a href="https://pedrominicz.github.io/freedom">estes aqui</a>).</p>
+<p>Com certeza o resultado desta jornada foi diferente do inicialmente esperado. Não assisto mais anime, mas tive a oportunidade de receber uma bolsa para estudar no Japão que infelizmente não fui por conta da pandemia do coronavírus. Atualmente falta apenas um nível do <em>Japanese-Language Proficiency Test</em> para conquistar. Ver meu progresso tem sido uma das experiências mais satisfatórias da minha vida.</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <!-- Note o uso da variável `loop.index`. Ela é criada pelo próprio Twig. -->
+      <button
+        class="btn btn-link text-left"
+        type="button"
+        data-toggle="collapse"
+        data-target="#question3">
+      <!-- `|raw` é necessário porque `question` contém HTML. -->
+      Como será o mundo pós-coronavírus? Quais ganhos nossa sociedade pode ter?
+      </button>
+    </div>
+    <div id="question3" class="collapse" data-parent="#questions">
+      <div class="card-body"><p>O coronavírus força, pela primeira vez, que muitos seguimentos normalmente presenciais fiquem a distância. Destes, creio que dois teram maior impacto em longo prazo: educação e trabalho a distância.</p>
+<p>Aprender é algo que pode ser feito de forma independente <em>online</em>. Já fazem vários anos que este é o caso. Agora, escolas são forçadas a explorar esta possibilidade. Ao longo do tempo os alunos se adaptarão (antes mesmos que muitas escolas) e ficará claro que educação a distância é uma opção viável a todos. Mas de longe, o aprendizado mais importante, que provavelmente só virá depois do amadurecimento de uma geração estudando <em>online</em>, será: aprender como avaliar de forma eficiente o aluno que estuda sozinho. Esta é uma questão ainda mal resolve, e consequentemente leva a baixa confiança ao ensido a distância. Agora seremos forçados a responde-lá, e só temos a ganhar com isso.</p>
+<p>Trabalhar é outra coisa que, para diversas áreas, pode ser feita a distância. Creio que o meior impacto não virá de dentro do nosso país, mas sim de países de primeiro mundo. Empresas perceberão que muitos trabalhos de desenvolvimento, por exemplo, antes prezos ao vale do silício estaram abertos para todo o mundo. Será mais fácil estas empresas discobrirem talentos em países como o Brasil. Uma nova onde de oportunidades se abrirá aos melhores de todos os países onde certas indústrias não são tão potentes.</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <!-- Note o uso da variável `loop.index`. Ela é criada pelo próprio Twig. -->
+      <button
+        class="btn btn-link text-left"
+        type="button"
+        data-toggle="collapse"
+        data-target="#question4">
+      <!-- `|raw` é necessário porque `question` contém HTML. -->
+      Qual seu grau de conhecimento do sistema operacional Microsoft Windows?
+      </button>
+    </div>
+    <div id="question4" class="collapse" data-parent="#questions">
+      <div class="card-body"><p>Tenho experiência limitada com Microsoft Windows. Como usuário, pode-se dizer que sou avançado. Sei usar o sistema de forma efetiva e realizar uma série de configurações cotidianas.</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <!-- Note o uso da variável `loop.index`. Ela é criada pelo próprio Twig. -->
+      <button
+        class="btn btn-link text-left"
+        type="button"
+        data-toggle="collapse"
+        data-target="#question5">
+      <!-- `|raw` é necessário porque `question` contém HTML. -->
+      Qual seu grau de conhecimento do sistema operacional Linux?
+      </button>
+    </div>
+    <div id="question5" class="collapse" data-parent="#questions">
+      <div class="card-body"><p>Uso Linux desde criança. Tive a oportunidade de instalar dezenas de sistemas, em máquinas físicas e virtuais. Tenho profunda familiaridade com a linha de comando. Uso diversas ferramentas, como <code>sed</code>, <code>grep</code>, <code>git</code>, <code>vi</code> e <code>find</code>, no meu dia-a-dia. Tenho experiência com distribuições baseadas em Debian (e.g. Ubuntu) e Arch Linux. Conheço também sobre: particionamento, configuração de diversas partes do sistema, configurar redes, criação de usuários e gerenciamento de permissões.</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <!-- Note o uso da variável `loop.index`. Ela é criada pelo próprio Twig. -->
+      <button
+        class="btn btn-link text-left"
+        type="button"
+        data-toggle="collapse"
+        data-target="#question6">
+      <!-- `|raw` é necessário porque `question` contém HTML. -->
+      Qual seu grau de conhecimento de redes TCP/IP?
+      </button>
+    </div>
+    <div id="question6" class="collapse" data-parent="#questions">
+      <div class="card-body"><p>Conheço o suficiente de redes para configurar estações de trabalho. Entendo sobre IP, máscara de redes, DHCP, gateways e DNS.</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <!-- Note o uso da variável `loop.index`. Ela é criada pelo próprio Twig. -->
+      <button
+        class="btn btn-link text-left"
+        type="button"
+        data-toggle="collapse"
+        data-target="#question7">
+      <!-- `|raw` é necessário porque `question` contém HTML. -->
+      Qual seu grau de conhecimento de <em>cloud computing</em>?
+      </button>
+    </div>
+    <div id="question7" class="collapse" data-parent="#questions">
+      <div class="card-body"><p>Por nome, conheço diversos fornecedores de <em>cloud computing</em>, porém tenho limitada experiência somente com o Google Cloud.</p></div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header">
+      <!-- Note o uso da variável `loop.index`. Ela é criada pelo próprio Twig. -->
+      <button
+        class="btn btn-link text-left"
+        type="button"
+        data-toggle="collapse"
+        data-target="#question8">
+      <!-- `|raw` é necessário porque `question` contém HTML. -->
+      Por que usar <code>++$i</code> é mais eficiente que usar <code>$i++</code> em certas situações?
+      </button>
+    </div>
+    <div id="question8" class="collapse" data-parent="#questions">
+      <div class="card-body"><p><code>++$i</code> incrementa a variável <code>$i</code> e retorna o valor incrementado, enquanto <code>$i++</code> retorna o valor da variável e posteriormente incrementa seu valor. Para que o valor não incrementado possa ser utilizado, <code>$i++</code> efetivamente cria uma variável temporária em diversas situações (apesar que um interpretador inteligente otimizaria isto). Ou seja, se o valor não incrementado da variável não for ser utilizado na espressão a melhor opção é usar <code>++$i</code>.</p>
+<p>Por exemplo, considere os seguintes <em>loops</em>:</p>
+<pre><code>for($i = 0; $i &lt; 10; $i++);
+
+for($i = 0; $i &lt; 10; ++$i);</code></pre>
+<p>No primeiro, a cada iteração o interpretador criará uma variável temporária e (mesmo que só por uma fração de segundo) terá os valores <code>$i</code> e <code>$i + 1</code> em memória simultaneamente. Já o segundo <em>loop</em> não encontrará este problema.</p></div>
+    </div>
+  </div>
+
+</div>
+
+      </div>
+    </main>
+
+    <script type="text/javascript">
+            </script>
+
+    <!-- Bootstrap precisa de jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </body>
+</html>
