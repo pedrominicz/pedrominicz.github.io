@@ -6,19 +6,32 @@ class Model {
   constructor(id, model, scale, position, rotation) {
     const el = document.createElement('a-entity');
 
+    this.id = id;
+    this.el = el;
+    this.rotation = rotation;
+
     el.setAttribute('gltf-model', `#${model}`);
+
+    const [x, y, z] = position;
+
+    el.setAttribute('position', `${x} ${y + 0.5} ${z}`);
 
     if(scale) {
       el.setAttribute('scale', `${scale} ${scale} ${scale}`);
     }
 
-    this.id = id;
-    this.el = el;
-    this.rotation = rotation;
+    if(rotation) {
+      const [x, y, z] = rotation;
 
-    el.addEventListener('click', () => this.onClick());
+      el.setAttribute('rotation', `${x} ${y} ${z}`);
+    }
 
-    const [x, y, z] = position;
+    el.setAttribute('animation', `
+      property: position;
+      from: ${x} ${y + 0.5} ${z};
+      to: ${x} ${y} ${z};
+      dur: 700;
+    `);
 
     el.setAttribute('animation__place', `
       property: position;
@@ -42,61 +55,77 @@ class Model {
     this.shelfPosition = position;
 
     this.el.setAttribute('position', `${x} ${y} ${z}`);
+    this.el.setAttribute('rotation', '0 0 0');
+  }
+
+  setOnClickHandler() {
+    this.el.addEventListener('click', () => this.onClick());
+  }
+
+  place() {
+    Model.placed.push(this.id);
+
+    if(this.rotation) {
+      const [x, y, z] = this.rotation;
+      this.el.setAttribute('rotation', `${x} ${y} ${z}`);
+    }
+
+    this.el.emit('place');
+  }
+
+  remove(index) {
+    Model.placed.splice(index, 1);
+
+    const [x, y, z] = this.shelfPosition;
+
+    this.el.setAttribute('position', `${x} ${y} ${z}`);
+    this.el.setAttribute('rotation', '0 0 0');
+
+    this.el.removeAttribute('animation');
   }
 
   onClick() {
-    const placed = Model.placed;
-    const index = placed.indexOf(this.id);
-    const el = this.el;
-    const max = Math.max(...placed);
+    const index = Model.placed.indexOf(this.id);
 
-    if(index === -1 && this.id > max) {
-      placed.push(this.id);
-
-      if(this.rotation) {
-        const [x, y, z] = this.rotation;
-        el.setAttribute('rotation', `${x} ${y} ${z}`);
-      }
-
-      el.emit('place');
+    if(index === -1 && this.id > Math.max(...Model.placed)) {
+      this.place();
     } else {
       if(index !== -1) {
-        placed.splice(index, 1);
-
-        const [x, y, z] = this.shelfPosition;
-
-        el.setAttribute('position', `${x} ${y} ${z}`);
-        el.setAttribute('rotation', '0 0 0');
-
-        el.removeAttribute('animation');
+        this.remove(index);
       } else {
-        console.log('emit');
-        el.emit('spin');
+        this.el.emit('spin');
       }
     }
 
-    if(placed.length === models.length) {
+    if(Model.placed.length === models.length) {
       setTimeout(() => stage.emit('win'), 1000);
     }
   }
 }
 
-const pieces = [];
+const start = async () => {
+  for(const [index, model] of models.entries()) {
+    models[index] = new Model(index, model.m, model.s, model.p, model.r);
 
-for(const [index, model] of models.entries()) {
-  pieces.push(new Model(index, model.m, model.s, model.p, model.r));
+    console.log(stage.appendChild(models[index].el));
+
+    await new Promise(resolve => setTimeout(resolve, 1200));
+  }
+
+  // Shuffle models.
+  models.sort(() => Math.random() - 0.5);
+
+  if(Math.random() < 0.5) {
+    models.reverse();
+  }
+
+  for(const [index, model] of models.entries()) {
+    const x = models.length - 2*index - 1;
+
+    model.setShelfPosition([x, 0, -3]);
+
+    model.setOnClickHandler();
+  }
 }
 
-// Shuffle pieces.
-pieces.sort(() => Math.random() - 0.5);
-
-if(Math.random() < 0.5) {
-  pieces.reverse();
-}
-
-for(const [index, model] of pieces.entries()) {
-  const x = pieces.length - 2*index - 1;
-  model.setShelfPosition([x, 0, -3]);
-
-  stage.appendChild(model.el);
-}
+start();
