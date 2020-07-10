@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>snake</title>
+    <style type="text/css">
+      * { margin: 0; padding: 0; }
+      html, body { height: 100%; overflow: hidden; background: #002f38; }
+      canvas {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: #003a43 !important;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" width="700" height="500"></canvas>
+    <script>
+      'use strict';
+
+      let started = false;
+      let paused = true;
+
+      let input = [];
+
+      window.addEventListener('keydown', function(ev) {
+        switch(ev.key) {
+          case 'a': case 'h': case 'ArrowLeft':
+          case 's': case 'j': case 'ArrowDown':
+          case 'w': case 'k': case 'ArrowUp':
+          case 'd': case 'l': case 'ArrowRight':
+          case ' ':
+            ev.preventDefault();
+            if(!started) {
+              started = true;
+              paused = false;
+            }
+        }
+        switch(ev.key) {
+          case 'a': case 'h': case 'ArrowLeft': input.push('left'); break;
+          case 's': case 'j': case 'ArrowDown': input.push('down'); break;
+          case 'w': case 'k': case 'ArrowUp': input.push('up'); break;
+          case 'd': case 'l': case 'ArrowRight': input.push('right'); break;
+          case ' ':
+            paused = !paused;
+            input = [];
+            break;
+        }
+      });
+
+      function randomCoords() {
+        return {
+          x: Math.floor(Math.random() * 35),
+          y: Math.floor(Math.random() * 25)
+        }
+      }
+
+      let score = 1;
+      let snake = { dir: null, body: [ randomCoords() ] };
+      let fruit;
+
+      do { // make sure that the fruid doesn't spawn on top of the snake
+        fruit = randomCoords();
+      } while(fruit.x === snake.body[0].x && fruit.y === snake.body[0].y);
+
+      function lose() {
+        paused = true;
+        window.confirm(`Your score was ${score}!`);
+        location.reload();
+      }
+
+      function update() {
+        // snake direction
+        let dir = input.shift();
+        if(dir === 'up' && snake.dir !== 'down') snake.dir = dir;
+        if(dir === 'down' && snake.dir !== 'up') snake.dir = dir;
+        if(dir === 'left' && snake.dir !== 'right') snake.dir = dir;
+        if(dir === 'right' && snake.dir !== 'left') snake.dir = dir;
+        if(dir === 'up' || dir === 'down') {
+          while(input[0] === 'up' || input[0] === 'down') input.shift();
+        }
+        if(dir === 'left' || dir === 'right') {
+          while(input[0] === 'left' || input[0] === 'right') input.shift();
+        }
+        input.length = Math.min(1, input.length);
+        // snake head
+        let head = null;
+        if(snake.dir === 'up') {
+          head = { x: snake.body[0].x, y: (snake.body[0].y - 1 + 25) % 25 };
+        } else if(snake.dir === 'down') {
+          head = { x: snake.body[0].x, y: (snake.body[0].y + 1 + 25) % 25 };
+        } else if(snake.dir === 'left') {
+          head = { x: (snake.body[0].x - 1 + 35) % 35, y: snake.body[0].y };
+        } else if(snake.dir === 'right') {
+          head = { x: (snake.body[0].x + 1 + 35) % 35, y: snake.body[0].y };
+        }
+        // check collisions between the snake's head and body
+        snake.body.forEach(function(part, _) {
+          if(head.x === part.x && head.y === part.y) lose();
+        });
+        let body = [ head ];
+        if(head.x === fruit.x && head.y === fruit.y) { // snake ate the fruit: grow
+          score = score + 1;
+          snake.body.forEach(function(part, i) {
+            body[i + 1] = part;
+          });
+          snake.body = body;
+          // make sure that the fruid doesn't spawn on top of the snake
+          let ok = null;
+          do {
+            ok = true;
+            fruit = randomCoords();
+            snake.body.forEach(function(part, _) {
+              if(fruit.x === part.x && fruit.y === part.y) ok = false;
+            });
+          } while(!ok);
+        } else { // walk normally
+          snake.body.forEach(function(part, i) {
+            body[i + 1] = part;
+          });
+          body.pop();
+          snake.body = body;
+        }
+      }
+
+      let canvas = document.getElementById('canvas');
+      let ctx = canvas.getContext('2d');
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // fruit
+        ctx.fillStyle = '#e92e36';
+        ctx.fillRect(fruit.x * 20, fruit.y * 20, 20, 20);
+        // snake
+        ctx.fillStyle = '#008fcd';
+        snake.body.forEach(function(part, _) {
+          ctx.fillRect(part.x * 20, part.y * 20, 20, 20);
+        });
+      }
+
+      draw(); // initial draw
+
+      let t1 = performance.now();
+
+      function step(t2) {
+        if(t2 - t1 > 100) {
+          t1 = t2;
+          if(!paused) update();
+        }
+        draw();
+        window.requestAnimationFrame(step);
+      }
+
+      window.requestAnimationFrame(step);
+    </script>
+  </body>
+</html>
