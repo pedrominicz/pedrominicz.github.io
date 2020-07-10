@@ -1,4 +1,4 @@
-const scene = document.querySelector('a-scene');
+const stage = document.getElementById('stage');
 
 class Model {
   static placed = [];
@@ -74,12 +74,16 @@ class Model {
         el.emit('spin');
       }
     }
+
+    if(placed.length === models.length) {
+      setTimeout(() => stage.emit('win'), 1000);
+    }
   }
 }
 
 const pieces = [];
 
-for(const [index, model] of stage.entries()) {
+for(const [index, model] of models.entries()) {
   pieces.push(new Model(index, model.m, model.s, model.p, model.r));
 }
 
@@ -90,5 +94,5 @@ for(const [index, model] of pieces.entries()) {
   const x = pieces.length - 2*index - 1;
   model.setShelfPosition([x, 0, -3]);
 
-  scene.appendChild(model.el);
+  stage.appendChild(model.el);
 }

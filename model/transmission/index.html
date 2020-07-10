@@ -8,7 +8,7 @@
   </head>
   <body>
     <script>
-      const stage = [
+      const models = [
         { m: 'box-1', p: [0, -0.3, 0] },
         { m: 'gear-1', p: [0, -0.4, 0] },
         { m: 'cylinder-1', p: [-0.8, -0.3, 0] },
@@ -38,6 +38,15 @@
         color="#fcc"
         rotation="-90 0 0">
       </a-plane>
+
+      <a-entity id="stage"
+        animation__win="
+          property: rotation;
+          from: 0 0 0;
+          to: 0 360 0;
+          dur: 500;
+          startEvents: win;">
+      </a-entity>
 
     </a-scene>
   </body>
