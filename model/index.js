@@ -90,6 +90,10 @@ for(const [index, model] of models.entries()) {
 // Shuffle pieces.
 pieces.sort(() => Math.random() - 0.5);
 
+if(Math.random() < 0.5) {
+  pieces.reverse();
+}
+
 for(const [index, model] of pieces.entries()) {
   const x = pieces.length - 2*index - 1;
   model.setShelfPosition([x, 0, -3]);
