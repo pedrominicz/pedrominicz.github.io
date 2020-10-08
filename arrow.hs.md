@@ -66,7 +66,7 @@ instance Monad ((->) a) where
   (>>=) = s (k (s (k (s (k (s s (s k))))) (s (s (k s) k)))) k
 ```
 
-However, we finally acquired `do` notation, which allows us to write some weird things:
+With the monad instance, we finally acquired `do` notation, which allows us to write some weird things:
 
     s :: (a -> b -> c) -> (a -> b) -> a -> c
     s x y = do
