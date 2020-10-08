@@ -36,7 +36,7 @@ Let's continue with the `Applicative` instance:
       pure = const
       f <*> g = \x -> f x (g x)
 
-Things have certainly got a lot more interesting. `pure` and `(<*>)` are the S and K combinators from the SKI combinator calculus!
+Things have certainly got a lot more interesting. `(<*>)` and `pure` are the S and K combinators from the SKI combinator calculus!
 
 (The reason why the applicative instance of `(->) a` is `OVERLAPPING` will become clear later.)
 
@@ -58,7 +58,13 @@ With applicative functors out of our way, we define a monad instance for `(->) a
       return = const
       f >>= g = \x -> g (f x) x
 
-Oh, no! Things have got kind of boring again! `(>>=)` is just the S combinator with shuffled parameter order!
+Oh, no! Things have got kind of boring again! `(>>=)` is just the S combinator with shuffled parameter order! And indeed, `(>>=)` could have been implemented in terms of S and K:
+
+```
+instance Monad ((->) a) where
+  return = const
+  (>>=) = s (k (s (k (s (k (s s (s k))))) (s (s (k s) k)))) k
+```
 
 However, we finally acquired `do` notation, which allows us to write some weird things:
 
