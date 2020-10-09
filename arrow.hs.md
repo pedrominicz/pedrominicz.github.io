@@ -63,7 +63,7 @@ Oh, no! Things have got kind of boring again! `(>>=)` is just the S combinator w
 ```
 instance Monad ((->) a) where
   return = const
-  (>>=) = s (k (s (k (s (k (s s (s k))))) (s (s (k s) k)))) k
+  f >>= g = \x -> g (f x) x
 ```
 
 <!-- This is secretly using the default arrow monad. I believe there is an extension that allows one to replace `do` notation, similar to `ApplicativeDo`. -->
