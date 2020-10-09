@@ -67,7 +67,7 @@ The `apply` function applies all bound variables to a term. If the term bound by
 
 Unbound variables are left untouched.
 
-(`traverse` is like `map`, but it carries monadic side-effects with each computation. If you are not familiar with with `Traversable` you should look into it, its currently my favorite typeclass.)
+(`traverse` is like `map`, but it carries monadic side effects with each computation. If you are not familiar with with `Traversable` you should look into it, its currently my favorite typeclass.)
 
 Finally, we can define `unify`:
 
@@ -111,9 +111,9 @@ A general definition of `zipExact` should the type `Alternative f => [a] -> [b] 
     zipExact (x:xs) (y:ys) = ((x, y) :) <$> zipExact xs ys
     zipExact _ _           = mzero
 
-And that is it! Complete unification of non-trivial terms!
+And that is it! Complete unification of nontrivial terms!
 
-An interesting challenge is to add support for such non-trivial terms to the implementation of μKanren shown in the [previous post][1]. Examples of unification in action may be found on [this Gist][4].
+It is a good exercise to enhance the implementation of μKanren shown in the [previous post][1] with unification as shown here. Examples of unification in action may be found on [this Gist][4].
 
 ---
 
