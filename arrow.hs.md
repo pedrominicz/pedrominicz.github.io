@@ -66,6 +66,14 @@ instance Monad ((->) a) where
   (>>=) = s (k (s (k (s (k (s s (s k))))) (s (s (k s) k)))) k
 ```
 
+Yet another possible implementation (thanks to [Brad Neimann][3]):
+
+```
+instance Monad ((->) a) where
+  return = const
+  f >>= g = flip g <*> f
+```
+
 <!-- This is secretly using the default arrow monad. I believe there is an extension that allows one to replace `do` notation, similar to `ApplicativeDo`. -->
 With the monad instance, we finally acquired `do` notation, which allows us to write some weird things:
 
@@ -88,8 +96,14 @@ which is just a default implementation of `(<*>)` for any given monad:
 
 This applicative instance is the reason for the extensions and the `OVERLAPPING` in the applicative instance of `(->) a`.
 
-I didn't manage to think of any useful examples of `do` notation for the `(->) a` monad. If you know of any, please let me know on [Twitter][3]. I would love to see more of this unexpected monad.
+I didn't manage to think of any useful examples of `do` notation for the `(->) a` monad. If you know of any, please let me know on [Twitter][4]. I would love to see more of this unexpected monad.
+
+---
+
+Special thanks to the wonderful folks at the [Functional Programming Zulip][5].
 
 [1]: /join
 [2]: https://wiki.haskell.org/Functor-Applicative-Monad_Proposal
-[3]: https://twitter.com/pedrominicz
+[3]: https://funprog.zulipchat.com/#narrow/stream/201385-Haskell/topic/Arrow.20monad.20and.20SK.20calculus/near/212781408
+[4]: https://twitter.com/pedrominicz
+[5]: https://funprog.zulipchat.com
