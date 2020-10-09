@@ -56,14 +56,14 @@ With applicative functors out of our way, we define a monad instance for `(->) a
 
     instance Monad ((->) a) where
       return = const
-      (>>=) = s (k (s (k (s (k (s s (s k))))) (s (s (k s) k)))) k
+      f >>= g = \x -> g (f x) x
 
 Oh, no! Things have got kind of boring again! `(>>=)` is just the S combinator with shuffled parameter order! And indeed, `(>>=)` could have been implemented in terms of S and K:
 
 ```
 instance Monad ((->) a) where
   return = const
-  f >>= g = \x -> g (f x) x
+  (>>=) = s (k (s (k (s (k (s s (s k))))) (s (s (k s) k)))) k
 ```
 
 <!-- This is secretly using the default arrow monad. I believe there is an extension that allows one to replace `do` notation, similar to `ApplicativeDo`. -->
