@@ -14,7 +14,7 @@ One of the things that surprised me while studying Haskell is that `(->) a` is a
 
     import Prelude hiding (Functor(..), Applicative(..), Monad(..))
 
-We hide `Functor`, `Applicative`, and `Monad` because we will implement our own hierarchy, similar to the one before the [Functor-Applicative-Monad][2] proposal. `FlexibleInstances` and `UndecidableInstances` will be necessary for later shenanigans.
+We hide `Functor`, `Applicative`, and `Monad` because we will implement our own hierarchy, similar to the one before the [functor-applicative-monad][2] proposal. `FlexibleInstances` and `UndecidableInstances` will be necessary for later shenanigans.
 
 First, we define `Functor` and an instance of it for our monad. `fmap` is just `(.)`, pretty lame.
 

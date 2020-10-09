@@ -10,9 +10,13 @@ filename = sys.argv[1]
 assert filename.endswith('.md')
 
 with open(filename) as input:
-    os.chdir(tempfile.mkdtemp())
+    tmpdir = tempfile.mkdtemp()
+
+    os.chdir(tmpdir)
 
     filename = filename[:-3].capitalize()
+
+    print('{}/{}'.format(tmpdir, filename))
 
     with open(filename, 'w') as output:
         # Currently printing an indented code block.
