@@ -24,7 +24,7 @@ First, we define `Functor` and an instance of it for our monad. `fmap` is just `
     instance Functor ((->) a) where
       fmap = (.)
 
-This can be easily excused, however. Lists are another type constructor that have this problem (their `fmap` is just `map`, boring!), yet their monad instance simulates nondeterministic computations (awesome!).
+This can be easily excused, however. Lists are another type constructor that have this problem (`fmap` is just `map`, boring!), yet their monad instance simulates nondeterministic computations (awesome!).
 
 Let's continue with the `Applicative` instance:
 
