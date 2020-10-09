@@ -3,7 +3,7 @@ permalink: /arrow
 layout: default
 ---
 
-# Fun with the Function Arrow Monad
+# Fun with the function arrow monad
 
 One of the things that surprised me while studying Haskell is that `(->) a` is a monad. It seems reasonable that functions form a monad, but I don’t believe I would have thought of it myself. How can this monad be used? An example, namely, `join (***)`, was considered in [a previous post][1]. But when I think monads in Haskell I, think of `do` notation. In this post we will define the `(->) a` monad ourselves and explored a bit of the weirdness of its `do` notation.
 
