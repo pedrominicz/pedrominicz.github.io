@@ -85,8 +85,10 @@ With the monad instance, we finally acquired `do` notation, which allows us to w
 
 which desugars to:
 
-    s' :: (a -> b -> c) -> (a -> b) -> a -> c
-    s' x y = x >>= \x -> y >>= \y -> return (x y)
+```
+s :: (a -> b -> c) -> (a -> b) -> a -> c
+s x y = x >>= \x -> y >>= \y -> return (x y)
+```
 
 which is just a default implementation of `(<*>)` for any given monad:
 
