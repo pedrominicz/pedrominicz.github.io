@@ -5,11 +5,11 @@ layout: default
 
 # Embedding a logic programming language in Haskell
 
-One of the ideas behind this "blog" is to share the resources I find while studying. As such, this post exists not for its originality, but for me to have a chance to write about one of my favorite pieces of code. We will be implementing μKanren, a minimal logic embedded programming language, in Haskell. μKanren was first presented by Jason Hemann and Daniel P. Friedman in their paper "μKanren A Minimal Functional Core for Relational Programming." The original Scheme implementation can be found on [the paper][1].
+One of the ideas behind this "blog" is to share the resources I find while studying. As such, this post exists not for its originality, but for me to have a chance to write about one of my favorite pieces of code. We will be implementing μKanren, a minimal logic embedded programming language, in Haskell. μKanren was first presented as a Scheme domain specific language by Jason Hemann and Daniel P. Friedman in their paper [μKanren A Minimal Functional Core for Relational Programming][1].
 
 Before proceeding any further, I want to recommend [Seal Talt's μKanren implementation walkthrough][2]. We will be implementing almost the exact same thing, so feel free to follow his writeup instead.
 
-Will begin defining our terms. For now terms either be logic variables or atomic constants.
+Without further ado, we begin defining terms.
 
     data Term
       = Var Int
@@ -29,8 +29,6 @@ and a function for pruning a chain of variables:
         Just t  -> prune s t
         Nothing -> Var v
     prune s t = t
-
-The function just keeps looking up variables until it find an unbound one or a term.
 
 The paper calls this function `walk`. I called it `prune` because its equivalent to the `fullprune` function in the [`unification-fd`][3] library.
 
@@ -54,7 +52,7 @@ With unification under our belts, we can define the predicates of our language.
 
     type Pred = (Subst, Int) -> [(Subst, Int)]
 
-`(Subst, Int)` is the current substitution plus the index of the next free variable. A predicate maps the current state to any number of possible future states. Basically a predicate is a non-deterministic operation on some substitution. This, together with Haskell's laziness, effectively mimics backtracking.
+`(Subst, Int)` is the current substitution plus the index of the next free variable. A predicate maps the current state to any number of possible future states. Basically a predicate is a nondeterministic operation on some substitution. This, together with Haskell's laziness, effectively mimics backtracking.
 
 The user isn't supposed directly manipulate variables, instead, a function for generating fresh variables is provided:
 
@@ -81,7 +79,7 @@ Next comes the logical connectives for conjunction (and) and disjunction (or).
 
 Conjunction uses the `(>>=)` for the list monad. For lists, `(>>=)` is equivalent to `\x f -> concat $ map f x`, which is exactly the behavior we want. The second predicate is applied to every output of the first. If the first predicate fails, there is nothing to apply to the second predicate, and an empty list is returned. If the second predicate fails for some input, it returns the empty list, which disappears after `concat`.
 
-Disjunction is simpler. The outputs of the first and second predicates are simply appended. Note that `(++)` is equivalent to depth-first search, like in Prolog. If the first predicate returns and infinite list, no result from the second is ever considered.
+Disjunction is simpler. The outputs of the first and second predicates are simply appended. Note that `(++)` is equivalent to depth first search, like in Prolog. If the first predicate returns and infinite list, no result from the second is ever considered.
 
 And that is it! We have implemented every feature of μKanren!
 
