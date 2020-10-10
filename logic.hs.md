@@ -5,12 +5,11 @@ layout: default
 
 # Embedding a logic programming language in Haskell
 
-One of the ideas behind this "blog" is to share the resources I find while studying. As such, this post exists not for its originality, but for me to have a chance to write about one of my favorite pieces of code. We will be implementing μKanren, a minimal logic embedded programming language, in Haskell. μKanren was first presented as a Scheme domain specific language by Jason Hemann and Daniel P. Friedman in their paper [μKanren A Minimal Functional Core for Relational Programming][1].
+One of the ideas behind this “blog” is to share the resources I find while studying. This post exists not for its originality, but for me to have a chance to share one of my favorite pieces of code. We will be implementing μKanren, a minimal logic embedded programming language, in Haskell. Jason Hemann and Daniel P. Friedman first presented μKanren as a Scheme domain-specific language by in their paper [μKanren A Minimal Functional Core for Relational Programming][1].
 
-Before proceeding any further, I want to recommend [Seal Talt's μKanren implementation walkthrough][2]. We will be implementing almost the exact same thing, so feel free to follow his writeup instead.
+Before proceeding any further, I want to recommend [Seal Talt’s μKanren implementation walkthrough][2]. We will be implementing almost the same thing, so feel free to follow his writeup instead.
 
 Without further ado, we begin defining terms.
-
     data Term
       = Var Int
       | Atom String
