@@ -10,6 +10,7 @@ One of the ideas behind this “blog” is to share cool things I find while stu
 Before proceeding any further, I want to recommend [Seal Talt’s μKanren implementation walkthrough][2]. We will be implementing almost the same thing, so feel free to follow his writeup instead.
 
 Without further ado, we begin defining terms.
+
     data Term
       = Var Int
       | Atom String
