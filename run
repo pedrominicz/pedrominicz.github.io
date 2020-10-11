@@ -10,13 +10,11 @@ filename = sys.argv[1]
 assert filename.endswith('.md')
 
 with open(filename) as input:
-    tmpdir = tempfile.mkdtemp()
+    os.makedirs('build', exist_ok=True)
+    os.chdir('build')
 
-    os.chdir(tmpdir)
-
+    filename = os.path.basename(filename)
     filename = filename[:-3].capitalize()
-
-    print('{}/{}'.format(tmpdir, filename))
 
     with open(filename, 'w') as output:
         # Currently printing an indented code block.
