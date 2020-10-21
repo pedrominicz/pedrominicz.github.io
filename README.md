@@ -1,6 +1,7 @@
 ### To-do
 
 - Proofread "Unification in 75 lines of Haskell"
+- Proofread "Eliminating data types"
 
 ### Ideas
 
