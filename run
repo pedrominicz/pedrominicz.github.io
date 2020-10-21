@@ -14,6 +14,7 @@ with open(filename) as input:
     os.chdir('build')
 
     filename = os.path.basename(filename)
+    # Remove `.md` from filename.
     filename = filename[:-3].capitalize()
 
     with open(filename, 'w') as output:
