@@ -19,7 +19,7 @@ First we will define the terms we will be unifying. Terms are tree-like, they ca
 
 Note that the user is _not_ supposed to create variables by hand (i.e. `v = Var 0`).
 
-To unify two terms we recursively descend each node comparing them. If the nodes are different unification fails, e.g. `Term "a" []` doesn't unify with `Term "b" []`. If they are equal we match every children done of each term. If a bound variable is encountered it is substituted into the term (if there are no infinite cycles) and the process continues. If a free variable is encountered it is bound to the matching term.
+To unify two terms we recursively descend each node comparing them. If the nodes are different terms unification fails &mdash; e.g. `Term "a" []` doesn't unify with `Term "b" []`. If they are equal we match every children done of each term. If a bound variable is encountered it is substituted into the term (if there are no infinite cycles) and the process continues. If a free variable is encountered it is bound to the matching term.
 
 Things will become clear when we start implementing. But before that, some helper machinery is required.
 
