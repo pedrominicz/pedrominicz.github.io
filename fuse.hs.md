@@ -1,5 +1,5 @@
 ---
-permalink: /unify
+permalink: /fuse
 layout: default
 ---
 
