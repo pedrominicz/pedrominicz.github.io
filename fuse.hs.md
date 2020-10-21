@@ -23,6 +23,7 @@ To unify two terms we recursively descend each node comparing them. If the nodes
 
 Things will become clear when we start implementing. But before that, some helper machinery is required.
 
+    -- I don't ever use `next`.
     data Binding = Binding
       { next     :: Int
       , bindings :: IM.IntMap Term
