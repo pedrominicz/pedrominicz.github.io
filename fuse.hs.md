@@ -23,22 +23,17 @@ To unify two terms we recursively descend each node comparing them. If the nodes
 
 Things will become clear when we start implementing. But before that, some helper machinery is required.
 
-    -- I don't ever use `next`.
-    data Binding = Binding
-      { next     :: Int
-      , bindings :: IM.IntMap Term
-      }
+    type Binding = IM.IntMap Term
 
     type Unify a = StateT Binding Maybe a
 
 Unification will happen inside the `Unify` monad. The `Binding` state keeps track of the next free variable and a mapping from variables to terms. We also make it an [`Alternative`][2] by transforming it with `Maybe`.
 
     lookupVar :: Int -> Unify (Maybe Term)
-    lookupVar v = gets (IM.lookup v . bindings)
+    lookupVar v = gets (IM.lookup v)
 
     bind :: Int -> Term -> Unify ()
-    bind v t = modify $ \s ->
-      s { bindings = IM.insert v t (bindings s) }
+    bind v t = modify $ \s -> IM.insert v t s
 
 Looking up variables and binding them is straight forward. `lookupVar` uses the [`gets`][3] function, which some may be unfamiliar with (I was a while ago), but which does the job just perfectly.
 
