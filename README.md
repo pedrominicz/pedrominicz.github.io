@@ -1,5 +1,7 @@
 ### To-do
 
+- Write about unification
+- Fix link at the last paragraph of ["Embedding a logic programming language in Haskell"][6]
 - Proofread "Unification in 75 lines of Haskell"
 - Proofread "Eliminating data types"
 
@@ -17,3 +19,4 @@
 [3]: https://www.ics.uci.edu/~lopes/teaching/inf212W12/readings/church.pdf
 [4]: https://homes.cs.washington.edu/~sorawee/en/blog/2017/10-05-deriving-Y.html
 [5]: http://fm.csl.sri.com/SSFT15/Timeline.pages.pdf
+[6]: https://pedrominicz.github.io/logic
