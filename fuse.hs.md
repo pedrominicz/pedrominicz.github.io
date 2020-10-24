@@ -111,6 +111,12 @@ And that is it! Complete unification of nontrivial terms!
 
 It is a good exercise to enhance the implementation of μKanren shown in the [previous post][1] with unification as shown here. Examples of unification in action may be found on [this Gist][4].
 
+```
+λ> term1 = Term "q" [Term "g" [Var 1], Term "f" [Var 2]]
+λ> term2 = Term "q" [Term "g" [Term "f" [Var 3]], Var 1]
+λ> evalStateT (unify term1 term2 >>= apply) IM.empty
+```
+
 ---
 
 I have to plug Ben Lynn's tutorial on type inference [Outcoding UNIX geniuses][5] as it was a key resource I used when first implementing Hindley-Milner type inference. The other key resource was [the Wikipedia article][6].
