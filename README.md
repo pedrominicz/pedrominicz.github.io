@@ -1,4 +1,4 @@
-### To-do
+### Todo
 
 - Write about unification
 - Fix link at the last paragraph of ["Embedding a logic programming language in Haskell"][6]
@@ -7,7 +7,19 @@
 
 ### Ideas
 
-- `Applicative -> Monad`: write about monads which can by implemented in terms of `(<*>)` and `pure` (like the [arrow monad][1]; see also: [representable functors][2])
+**Representable functors**
+
+Write about monads which can by implemented in terms of `(<*>)` and `pure` (like the [arrow monad][1]; see also: [representable functors][2]). This may be related with SKI combinator calculus and the reader monad (`((->) r)` is a `MonadReader r` with `ask = id`). How to describe `Applicative`, SKI combinator calculus, and `MonadReader` in categorical terms?
+
+**Compiling λ-terms to SKI combinator calculus**
+
+I should try to figure this out by myself before reading how to do so. The first link below should give enough of a hint.
+
+Interesting resources:
+- [Physics, Topology, Logic and Computation: A Rosetta Stone][7] section 4.3
+- [Fun with Combinators][9]
+- [A Combinatory Compiler][8]
+- [λ to SKI, Semantically][10]
 
 ### Low priority
 - [An unsolvable problem of elementary number theory][3]
@@ -20,3 +32,7 @@
 [4]: https://homes.cs.washington.edu/~sorawee/en/blog/2017/10-05-deriving-Y.html
 [5]: http://fm.csl.sri.com/SSFT15/Timeline.pages.pdf
 [6]: https://pedrominicz.github.io/logic
+[7]: https://arxiv.org/pdf/0903.0340.pdf
+[8]: http://www-cs-students.stanford.edu/~blynn/lambda/sk.html
+[9]: https://doisinkidney.com/posts/2020-10-17-ski.html
+[10]: http://okmij.org/ftp/tagless-final/ski.pdf
