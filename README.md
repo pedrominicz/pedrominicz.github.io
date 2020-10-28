@@ -11,6 +11,10 @@
 
 Write about monads which can by implemented in terms of `(<*>)` and `pure` (like the [arrow monad][1]; see also: [representable functors][2]). This may be related with SKI combinator calculus and the reader monad (`((->) r)` is a `MonadReader r` with `ask = id`). How to describe `Applicative`, SKI combinator calculus, and `MonadReader` in categorical terms?
 
+Interesting resources:
+- [Applicative programming with effects][11] section 7
+- [Applicative Functors][12]
+
 **Compiling λ-terms to SKI combinator calculus**
 
 I should try to figure this out by myself before reading how to do so. The first link below should give enough of a hint.
@@ -36,3 +40,5 @@ Interesting resources:
 [8]: http://www-cs-students.stanford.edu/~blynn/lambda/sk.html
 [9]: https://doisinkidney.com/posts/2020-10-17-ski.html
 [10]: http://okmij.org/ftp/tagless-final/ski.pdf
+[11]: http://www.staff.city.ac.uk/~ross/papers/Applicative.pdf
+[12]: https://bartoszmilewski.com/2017/02/06/applicative-functors/
