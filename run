@@ -29,4 +29,5 @@ with open(filename) as input:
                 output.write('\n')
                 code = False
 
-subprocess.run(['ghci', filename])
+if filename.endswith('.hs'):    subprocess.run(['ghci', filename])
+if filename.endswith('.lean'):  subprocess.run(['lean', filename])
