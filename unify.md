@@ -29,7 +29,7 @@ What would you answer if a friendly neighborhood gardener asked if the follow tr
 
 Although not perfectly equal, the gardener defines these trees as equal: two branches, three leafs on the left branch, and no leafs on the right branch.
 
-Then, the friendly gardener asks if the following trees are equal:
+Then, the friendly gardener asks if the following trees are equal.
 
 ![](/sorry.png)
 
@@ -40,6 +40,14 @@ A programmer may see the trees above as a data structure containing natural numb
 ![](/sorry.png)
 
 ### When Trees can be made Equal?
+
+Now, the friendly gardener introduces trees with variables. Variables are potential: they may "grow" into any kind of tree. But variables are also absolute, a variable may only "grow" into _one_ kind of tree.
+
+The gardener asks if the following trees can be made equal.
+
+![](/sorry.png)
+
+She explains that, yes, they can be made equal. If the variable <span style="color: #4868ab">**1**</span> gets substituted by a tiny branch with no leafs, both trees will be equal.
 
 <!--
 
