@@ -47,7 +47,7 @@ The gardener asks if the following trees can be made equal.
 
 ![](/sorry.png)
 
-She explains that, yes, they can be made equal. If the variable $$1$$ gets substituted by a tiny branch with no leafs, both trees will be equal.
+She explains that, yes, they can be made equal. If the variable $1$ gets substituted by a branch with no leafs, both trees will be equal.
 
 <!--
 
