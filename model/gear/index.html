@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Gear</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="../index.js" defer></script>
+  </head>
+  <body>
+    <script>
+      const models = [
+        { m: 'gear-4', p: [0, 0, -1.05], r: [90, 0, 0] },
+        { m: 'gear-2', p: [-0.23, 0, -0.92], r: [90, 0, 0] },
+        { m: 'gear-3', p: [0.32, 0, -0.34], r: [90, 0, 0] },
+        { m: 'box-2', p: [0.06, -0.33, -0.2], r: [0, 127, 0] },
+      ];
+    </script>
+
+    <a-scene renderer="colorManagement: true;" stats>
+
+      <a-assets>
+        <a-asset-item id="box-2" src="../assets/box-2.glb"></a-asset-item>
+        <a-asset-item id="gear-2" src="../assets/gear-2.glb"></a-asset-item>
+        <a-asset-item id="gear-3" src="../assets/gear-3.glb"></a-asset-item>
+        <a-asset-item id="gear-4" src="../assets/gear-4.glb"></a-asset-item>
+      </a-assets>
+
+      <a-camera position="0 1 2.5">
+        <a-entity cursor="rayOrigin: mouse"></a-entity>
+      </a-camera>
+
+      <a-plane
+        position="0 -0.25 0"
+        width="3"
+        height="3"
+        color="#fcc"
+        rotation="-90 0 0">
+      </a-plane>
+
+      <a-entity id="stage"
+        animation__win="
+          property: rotation;
+          from: 0 0 0;
+          to: 0 360 0;
+          dur: 500;
+          startEvents: win;">
+      </a-entity>
+
+    </a-scene>
+  </body>
+</html>

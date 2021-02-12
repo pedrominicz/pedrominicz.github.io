@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Tetris</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="../index.js" defer></script>
+  </head>
+  <body>
+    <script>
+      const models = [
+        { m: 't', p: [-0.5, 0.5, 0], r: [180, 90, 0] },
+        { m: 's', p: [0, 0, 0.5] },
+      ];
+    </script>
+
+    <a-scene renderer="colorManagement: true;" stats>
+
+      <a-assets>
+        <a-asset-item id="s" src="../assets/s.gltf"></a-asset-item>
+        <a-asset-item id="t" src="../assets/t.gltf"></a-asset-item>
+      </a-assets>
+
+      <a-camera position="0 1 2.5">
+        <a-entity cursor="rayOrigin: mouse"></a-entity>
+      </a-camera>
+
+      <a-plane
+        position="0 -0.25 0"
+        width="3"
+        height="3"
+        color="#fcc"
+        rotation="-90 0 0">
+      </a-plane>
+
+      <a-entity id="stage"
+        animation__win="
+          property: rotation;
+          from: 0 0 0;
+          to: 0 360 0;
+          dur: 500;
+          startEvents: win;">
+      </a-entity>
+
+    </a-scene>
+  </body>
+</html>

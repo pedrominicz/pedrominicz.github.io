@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Transmission</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="../index.js" defer></script>
+  </head>
+  <body>
+    <script>
+      const models = [
+        { m: 'box-1', p: [0, -0.3, 0] },
+        { m: 'gear-1', p: [0, -0.4, 0] },
+        { m: 'cylinder-1', p: [-0.8, -0.3, 0] },
+        { m: 'gear-1', p: [-0.8, 0.3, -0.44], r: [90, 0, 0], s: 1.1 },
+        { m: 'cylinder-2', p: [0.8, -0.3, 0] },
+        { m: 'gear-1', p: [0.8, 0.25, -0.44], r: [90, 0, 0] },
+      ];
+    </script>
+
+    <a-scene renderer="colorManagement: true;" stats>
+
+      <a-assets>
+        <a-asset-item id="gear-1" src="../assets/gear-1.glb"></a-asset-item>
+        <a-asset-item id="box-1" src="../assets/box-1.glb"></a-asset-item>
+        <a-asset-item id="cylinder-1" src="../assets/cylinder-1.glb"></a-asset-item>
+        <a-asset-item id="cylinder-2" src="../assets/cylinder-2.glb"></a-asset-item>
+      </a-assets>
+
+      <a-camera position="0 1 2.5">
+        <a-entity cursor="rayOrigin: mouse"></a-entity>
+      </a-camera>
+
+      <a-plane
+        position="0 -0.25 0"
+        width="3"
+        height="3"
+        color="#fcc"
+        rotation="-90 0 0">
+      </a-plane>
+
+      <a-entity id="stage"
+        animation__win="
+          property: rotation;
+          from: 0 0 0;
+          to: 0 360 0;
+          dur: 500;
+          startEvents: win;">
+      </a-entity>
+
+    </a-scene>
+  </body>
+</html>
