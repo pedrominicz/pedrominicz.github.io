@@ -15,19 +15,14 @@ with open(filename) as input:
 
     filename = os.path.basename(filename)
     # Remove `.md` from filename.
-    filename = filename[:-3].capitalize()
+    filename = filename[:-3]
 
     with open(filename, 'w') as output:
-        # Currently printing an indented code block.
-        code = False
-
         for line in input.readlines():
             if line.startswith('    '):
                 output.write(line[4:])
-                code = True
-            elif code:
+            else:
                 output.write('\n')
-                code = False
 
 if filename.endswith('.hs'):    subprocess.run(['ghci', filename])
 if filename.endswith('.lean'):  subprocess.run(['lean', filename])
