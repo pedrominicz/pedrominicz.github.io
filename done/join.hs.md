@@ -22,7 +22,7 @@ join :: Monad m => m (m a) -> m a
 (***) :: Arrow a => a b c -> a b' c' -> a (b, b') (c, c')
 ```
 
-Using `:i` (abbreviation for `:info`) we see that the `Arrow` typeclass inherits from the `Category` typeclass (aha!). But more useful information can be found below: `->` is an instance of `Arrow`!
+Using `:i` (abbreviation for `:info`) we see that the `Arrow` type class inherits from the `Category` type class (aha!). But more useful information can be found below: `->` is an instance of `Arrow`!
 
 ```
 λ> :i Arrow
