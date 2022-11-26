@@ -1,7 +1,8 @@
+This directory should contain work in progress blog posts. Completed posts should be moved to `done`. Every post should be proofread.
+
 ### Todo
 
-- Proofread "Unification in 75 lines of Haskell"
-- Proofread "Eliminating data types"
+- Proofread `logic.hs.md`
 
 ### Ideas
 
