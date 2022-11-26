@@ -2,7 +2,7 @@ This directory should contain work in progress blog posts. Completed posts shoul
 
 ### Todo
 
-- Proofread `logic.hs.md`
+- Write more stuff!
 
 ### Ideas
 
