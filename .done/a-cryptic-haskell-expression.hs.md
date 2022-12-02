@@ -10,7 +10,7 @@ While reading [Ben Lynn's excellent Lambda calculus tutorial][1] I found the fol
 join (***) (sub x t) <$> rest
 ```
 
-For context, `sub` is a function that takes three arguments (that is `sub x t` is a function that takes one argument) and `rest` is a list. But what does `join` or `***` do? Thankfully Haskell has great documentation and tools. In this article we will use GHCi's `:i` and `:t` commands to figure this expression out.
+For context, `sub` is a function that takes three arguments (that is `sub x t` is a function that takes one argument) and `rest` is a list. But what is `join` or `***`? Thankfully Haskell has great documentation and tools. In this article we will use GHCi's `:i` and `:t` commands to figure this expression out.
 
 A few `:t`s (abbreviation for `:type`) shows that `join` removes a monad layer and that `***` merges two `Arrow`s.
 
