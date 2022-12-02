@@ -8,7 +8,7 @@ In this post we will implement μKanren, a minimal logic programming language, i
 
 Before proceeding any further, I want to recommend [this μKanren implementation walkthrough][2]. It is also written in Haskell and I will implement almost the same thing. So check it out if you want a different explanation or just want to read more.
 
-Without further ado, let's begin.
+Okay, let's begin.
 
     data Term
       = Var Int
