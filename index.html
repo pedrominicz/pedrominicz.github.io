@@ -6,7 +6,7 @@ title: Everything
 
 <ul>
   {% for page in site.pages %}
-    {% if page.title != 'Everything' %}
+    {% if page.layout == 'default' and page.title != 'Everything' %}
       <li><a href="{{ page.url }}">{{ page.title }}</a></li>
     {% endif %}
   {% endfor %}
