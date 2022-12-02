@@ -1,9 +1,8 @@
 ---
-permalink: /join
 layout: default
+permalink: /a-cryptic-haskell-expression
+title: A cryptic Haskell expression
 ---
-
-# Understanding "join (\*\*\*)"
 
 While reading [Ben Lynn's excellent Lambda calculus tutorial][1] I found the following mind boggling expression:
 

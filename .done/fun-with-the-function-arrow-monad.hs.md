@@ -1,9 +1,8 @@
 ---
-permalink: /arrow
 layout: default
+permalink: /fun-with-the-function-arrow-monad
+title: Fun with the function arrow monad
 ---
-
-# Fun with the function arrow monad
 
 I was surprised when I learned that `(->) a` is a monad. It seems reasonable, but I wouldn't have figured that myself. How can this monad be used? An example was shown in [a previous post][1]. But when I think monads in Haskell I, think of `do` notation. In this post we will define the `(->) a` monad ourselves and explored a bit of the weirdness of its `do` notation.
 
@@ -114,7 +113,7 @@ s x y = do
 
 ---
 
-Special thanks to the wonderful folks at the [Functional Programming Zulip][3].
+Special thanks to the wonderful people at the [Functional Programming Zulip][3].
 
 [1]: /join
 [2]: https://funprog.zulipchat.com/#narrow/stream/201385-Haskell/topic/Arrow.20monad.20and.20SK.20calculus/near/212781408

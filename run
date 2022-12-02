@@ -16,8 +16,8 @@ if not filename.endswith('.md'):
     sys.exit(0)
 
 with open(filename) as input:
-    os.makedirs('build', exist_ok=True)
-    os.chdir('build')
+    os.makedirs('.build', exist_ok=True)
+    os.chdir('.build')
 
     filename = os.path.basename(filename)
     # Remove `.md` from filename.

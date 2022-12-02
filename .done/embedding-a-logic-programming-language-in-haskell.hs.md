@@ -1,9 +1,8 @@
 ---
-permalink: /logic
 layout: default
+permalink: /embedding-a-logic-programming-language-in-haskell
+title: Embedding a logic programming language in Haskell
 ---
-
-# Embedding a logic programming language in Haskell
 
 In this post we will implement μKanren, a minimal logic programming language, in Haskell. It's originally a Scheme domain-specific language introduced in [μKanren A Minimal Functional Core for Relational Programming][1].
 
@@ -42,7 +41,7 @@ Now we can define our unification function. Given a substitution and two terms, 
       go t (Var x) = Just [(x, t)]
       go _ _ = Nothing
 
-Our terms are so simple that no recursion is needed!
+Our terms are so simple that we don't need recursion!
 
 `go` returns a new constraint or fails. It first checks if the two terms are equal. If they are, don't add a constraint. If one of them is a variable, add a constraint. We only reach the last clause if both terms are different atoms. Note that `go` only works because terms have been pruned beforehand.
 
@@ -96,9 +95,7 @@ Here are a few utility functions used in the examples.
 
 `true` is trivially satisfied. `false` fails no matter what. And `solve` is just a convenience.
 
----
-
-Given the simplicity of our language, it is hard to come up with elaborate examples. We can, however, demonstrate what can be called the "essence" of logic programming.
+Given the simplicity of our language, it is hard to come up with elaborate examples. However, we have the "essence" of logic programming.
 
 ```
 λ> a = Atom "a"
@@ -111,7 +108,7 @@ Given the simplicity of our language, it is hard to come up with elaborate examp
 [[(0,Atom "a")],[(0,Atom "b")]]
 ```
 
-As expected, `x` can't be `a` and `b` simultaneously, but it can be `a` _or_ `b`.
+As expected, `x` can't be `a` _and_ `b`, but it can be `a` _or_ `b`.
 
 ```
 λ> as x = disj (x === a) (as x)

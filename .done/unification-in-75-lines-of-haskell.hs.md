@@ -1,9 +1,8 @@
 ---
-permalink: /fuse
 layout: default
+permalink: /unification-in-75-lines-of-haskell
+title: Unification in 75 lines of Haskell
 ---
-
-# Unification in 75 lines of Haskell
 
 Unification is key for type inference algorithms and is used as a computational primitive in logic programming languages such as Prolog or [μKanren][1]. A simple unification algorithm is easy to implement and gives great insight. In this post we will implement unification in about 75 lines of Haskell.
 
