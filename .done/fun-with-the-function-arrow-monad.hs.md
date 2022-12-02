@@ -111,10 +111,6 @@ s x y = do
   return (x y)
 ```
 
----
-
-Special thanks to the wonderful people at the [Functional Programming Zulip][3].
-
 [1]: /join
 [2]: https://funprog.zulipchat.com/#narrow/stream/201385-Haskell/topic/Arrow.20monad.20and.20SK.20calculus/near/212781408
 [3]: https://funprog.zulipchat.com

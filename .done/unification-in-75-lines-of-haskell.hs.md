@@ -109,8 +109,6 @@ As an exercise, try adding unification to the implementation of μKanren shown i
 λ> evalStateT (unify term1 term2 >>= apply) IM.empty
 ```
 
----
-
 I recommend reading Ben Lynn's [tutorial on type inference][5]. It was an important resource I used when I first implemented unification and Hindley-Milner type inference.
 
 [1]: /logic
