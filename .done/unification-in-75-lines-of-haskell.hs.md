@@ -111,7 +111,7 @@ As an exercise, try adding unification to the implementation of μKanren shown i
 
 I recommend reading Ben Lynn's [tutorial on type inference][5]. It was an important resource I used when I first implemented unification and Hindley-Milner type inference.
 
-[1]: /logic
+[1]: /embedding-a-logic-programming-language-in-haskell
 [2]: https://hackage.haskell.org/package/base/docs/Control-Applicative.html#t:Alternative
 [3]: https://hackage.haskell.org/package/mtl/docs/Control-Monad-State-Lazy.html#v:gets
 [4]: https://gist.github.com/pedrominicz/c0b522b33e1e5be16785754d2060050c
