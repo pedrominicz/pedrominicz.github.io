@@ -63,8 +63,10 @@ join (***) :: Arrow a => a b c -> a (b, b) (c, c)
 
 `join (***)` takes a function of `a` to `b` to a function of pairs of `a` to pairs of `b`. It is equivalent to the following function:
 
-    both :: (a -> b) -> (a, a) -> (b, b)
-    both f (x, y) = (f x, f y)
+```
+both :: (a -> b) -> (a, a) -> (b, b)
+both f (x, y) = (f x, f y)
+```
 
 I think it's interesting that Lynn decided to use `join (***)` instead of writing or importing a simple `both` function. It show familiarity with Haskell and category theory theory. But at the cost of readability.
 

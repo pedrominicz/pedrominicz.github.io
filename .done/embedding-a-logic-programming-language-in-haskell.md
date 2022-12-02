@@ -10,36 +10,44 @@ Before proceeding any further, I want to recommend [this μKanren implementation
 
 Okay, let's begin.
 
-    data Term
-      = Var Int
-      | Atom String
-      deriving (Eq, Show)
+```Logic.hs
+data Term
+  = Var Int
+  | Atom String
+  deriving (Eq, Show)
+```
 
 Given how simple our terms are, unification is straight forward. But before defining unification, we first need to define substitutions.
 
-    type Subst = [(Int, Term)]
+```Logic.hs
+type Subst = [(Int, Term)]
+```
 
 And a function for pruning a chain of variables:
 
-    -- Assumes no cyclic chains.
-    prune :: Subst -> Term -> Term
-    prune s (Var x) =
-      case lookup x s of
-        Just t  -> prune s t
-        Nothing -> Var x
-    prune _ t = t
+```Logic.hs
+-- Assumes there are no cycles.
+prune :: Subst -> Term -> Term
+prune s (Var x) =
+  case lookup x s of
+    Just t  -> prune s t
+    Nothing -> Var x
+prune _ t = t
+```
 
 The paper calls this function `walk`. I call it `prune` because it's equivalent to the `fullprune` function in the [`unification-fd` library][3].
 
 Now we can define our unification function. Given a substitution and two terms, the function returns a new substitution under which the terms unify or fails and returns `Nothing`.
 
-    unify :: Subst -> Term -> Term -> Maybe Subst
-    unify s t1 t2 = (++ s) <$> go (prune s t1) (prune s t2)
-      where
-      go t1 t2 | t1 == t2 = Just []
-      go (Var x) t = Just [(x, t)]
-      go t (Var x) = Just [(x, t)]
-      go _ _ = Nothing
+```Logic.hs
+unify :: Subst -> Term -> Term -> Maybe Subst
+unify s t1 t2 = (++ s) <$> go (prune s t1) (prune s t2)
+  where
+  go t1 t2 | t1 == t2 = Just []
+  go (Var x) t = Just [(x, t)]
+  go t (Var x) = Just [(x, t)]
+  go _ _ = Nothing
+```
 
 Our terms are so simple that we don't need recursion!
 
@@ -49,49 +57,59 @@ There is a subtle detail about the first clause of `go`. It might be tempting to
 
 With unification under our belts, we can define the propositions of our language.
 
-    type Prop = (Subst, Int) -> [(Subst, Int)]
+```Logic.hs
+type Prop = (Subst, Int) -> [(Subst, Int)]
+```
 
 `(Subst, Int)` is the current substitution plus the index of the next free variable. A proposition maps the current state to several states which satisfy it. It is a nondeterministic operation on some substitution. This, together with Haskell's laziness, effectively mimics backtracking.
 
 The user isn't supposed directly manipulate variables. Instead, we provide a function for generating fresh variables.
 
-    fresh :: (Term -> Prop) -> Prop
-    fresh f = \(s, i) -> f (Var i) (s, i + 1)
+```Logic.hs
+fresh :: (Term -> Prop) -> Prop
+fresh f = \(s, i) -> f (Var i) (s, i + 1)
+```
 
 We also wrap unification in a proposition.
 
-    (===) :: Term -> Term -> Prop
-    t1 === t2 = \(s, i) ->
-        case unify s t1 t2 of
-            Just s -> [(s, i)]
-            Nothing -> []
+```Logic.hs
+(===) :: Term -> Term -> Prop
+t1 === t2 = \(s, i) ->
+  case unify s t1 t2 of
+    Just s -> [(s, i)]
+    Nothing -> []
+```
 
 An empty list represents failure: there are no states which satisfy a failed unification.
 
 Next comes the logical connectives for conjunction (and) and disjunction (or).
 
-    conj :: Prop -> Prop -> Prop
-    conj p q = \s -> p s >>= q
+```Logic.hs
+conj :: Prop -> Prop -> Prop
+conj p q = \s -> p s >>= q
 
-    disj :: Prop -> Prop -> Prop
-    disj p q = \s -> p s ++ q s
+disj :: Prop -> Prop -> Prop
+disj p q = \s -> p s ++ q s
+```
 
 Conjunction uses `(>>=)` for the list monad. For lists, `(>>=)` is equivalent to `\x f -> concat $ map f x`, which is what we want. We apply the second proposition to all outputs of the first. If the first proposition fails, there is nothing to apply to the second, and it returns an empty list. If the second proposition fails for some input, it returns the empty list, which disappears after `concat`.
 
-Disjunction is simpler. It just appends the output of the first and second propositions. Note that `(++)` is equivalent to a depth-first search, like in Prolog. If the first proposition returns an infinite list, the result of the second never is considered.
+Disjunction is simpler. It just appends the output of the first and second propositions. Note that using `(++)` makes us do depth-first search, unlike the original μKanren and like Prolog. If the first proposition returns an infinite list, the result of the second never is considered.
 
 And that is it! We have implemented every feature of μKanren!
 
 Here are a few utility functions used in the examples.
 
-    true :: Prop
-    true = \s -> [s]
+```Logic.hs
+true :: Prop
+true = \s -> [s]
 
-    false :: Prop
-    false = \_ -> []
+false :: Prop
+false = \_ -> []
 
-    solve :: Prop -> [Subst]
-    solve p = map fst $ p ([], 0)
+solve :: Prop -> [Subst]
+solve p = map fst $ p ([], 0)
+```
 
 `true` is trivially satisfied. `false` fails no matter what. And `solve` is just a convenience.
 
