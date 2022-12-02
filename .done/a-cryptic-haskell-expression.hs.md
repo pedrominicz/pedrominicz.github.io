@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 permalink: /a-cryptic-haskell-expression
 title: A cryptic Haskell expression
 ---

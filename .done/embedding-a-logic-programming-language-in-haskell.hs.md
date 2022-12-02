@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 permalink: /embedding-a-logic-programming-language-in-haskell
 title: Embedding a logic programming language in Haskell
 ---

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 permalink: /fun-with-the-function-arrow-monad
 title: Fun with the function arrow monad
 ---

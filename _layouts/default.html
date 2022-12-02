@@ -4,9 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>{{ title }}</title>
+  <title>{{ page.title }}</title>
 
-  <style type="text/css">
+  <link rel="icon" href="data:,">
+
+  <style>
     body {
       background-color: #111;
       color: #bbb;
@@ -44,14 +46,6 @@
   </style>
 </head>
 <body>
-  <h1>{{ page.title }}</h1>
-
   {{ content }}
-
-  {% if page.title != 'Everything' %}
-    <hr>
-
-    <strong><a href="{{ "/" | absolute_url }}">Everything</a></strong>
-  {% endif %}
 </body>
 </html>

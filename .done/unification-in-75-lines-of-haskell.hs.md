@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 permalink: /unification-in-75-lines-of-haskell
 title: Unification in 75 lines of Haskell
 ---
