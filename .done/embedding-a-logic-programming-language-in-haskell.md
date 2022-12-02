@@ -94,7 +94,7 @@ disj p q = \s -> p s ++ q s
 
 Conjunction uses `(>>=)` for the list monad. For lists, `(>>=)` is equivalent to `\x f -> concat $ map f x`, which is what we want. We apply the second proposition to all outputs of the first. If the first proposition fails, there is nothing to apply to the second, and it returns an empty list. If the second proposition fails for some input, it returns the empty list, which disappears after `concat`.
 
-Disjunction is simpler. It just appends the output of the first and second propositions. Note that using `(++)` makes us do depth-first search, unlike the original μKanren and like Prolog. If the first proposition returns an infinite list, the result of the second never is considered.
+Disjunction is simpler. It just appends the output of the first and second propositions. Note that using `(++)` makes us do depth-first search, like Prolog. If the first proposition returns an infinite list, the result of the second one is never considered.
 
 And that is it! We have implemented every feature of μKanren!
 
