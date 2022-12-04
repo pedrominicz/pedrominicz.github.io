@@ -1,14 +1,15 @@
-This directory should contain work in progress blog posts. Completed posts should be moved to `done`. Every post should be proofread.
+This directory should contain work in progress blog posts. Completed posts should be moved to `.done`. Every post should be proofread.
 
 ### Todo
 
 - Write more stuff!
+- Make already visited links a different color
 
 ### Ideas
 
 **Representable functors**
 
-Write about monads which can by implemented in terms of `(<*>)` and `pure` (like the [arrow monad][1]; see also: [representable functors][2]). This may be related with SKI combinator calculus and the reader monad (`((->) r)` is a `MonadReader r` with `ask = id`). How to describe `Applicative`, SKI combinator calculus, and `MonadReader` in categorical terms?
+Write about monads which can by implemented in terms of `(<*>)` and `pure` ([representable functors][2]). This may be related with SKI combinator calculus and the reader monad (`((->) r)` is a `MonadReader r` with `ask = id`). How to describe `Applicative`, SKI combinator calculus, and `MonadReader` in categorical terms?
 
 Interesting resources:
 - [Applicative programming with effects][11] section 7
@@ -29,7 +30,6 @@ Interesting resources:
 - [Deriving the Y combinator][4]
 - [A timeline for logic, λ-calculus, and programming language theory][5]
 
-[1]: https://pedrominicz.github.io/arrow
 [2]: https://funprog.zulipchat.com/#narrow/stream/201385-Haskell/topic/Arrow.20monad.20and.20SK.20calculus/near/212781408
 [3]: https://www.ics.uci.edu/~lopes/teaching/inf212W12/readings/church.pdf
 [4]: https://homes.cs.washington.edu/~sorawee/en/blog/2017/10-05-deriving-Y.html

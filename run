@@ -16,10 +16,10 @@ if not filename.endswith('.md'):
 file = open(filename, 'r')
 
 # Note that filename ends with `.md`.
-filename = os.path.basename(filename)[:-3]
+dir = os.path.basename(filename)[:-3]
 
-os.makedirs(f'.build/{filename}', exist_ok=True)
-os.chdir(f'.build/{filename}')
+os.makedirs(f'.build/{dir}', exist_ok=True)
+os.chdir(f'.build/{dir}')
 
 files = {}
 current = None
@@ -42,5 +42,6 @@ for line in file:
 
 file.close()
 
-for file in files.values():
+for filename, file in files.items():
+    sys.stdout.write(f'.build/{dir}/{filename}\n')
     file.close()
