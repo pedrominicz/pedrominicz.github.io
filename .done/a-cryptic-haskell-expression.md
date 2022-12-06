@@ -54,7 +54,7 @@ Once again, we rewrite the type of `***`.
 (***) :: (->) (b -> c) ((->) (b' -> c') ((b, b') -> (c, c')))
 ```
 
-Since `join` requires both monad layers to be equal, `(->) (b -> c)` and `(->) (b' -> c')` have to be of the same monad. Meaning our `join` is going to take `(b -> c) -> (b -> c) -> (b, b) -> (c, c)` into `(b -> c) -> (b, b) -> (c, c)`, or, more generally:
+Since `join` requires both monad layers to be equal, `(->) (b -> c)` and `(->) (b' -> c')` have to be of the same monad. Meaning our `join` is going to take `(b -> c) -> (b -> c) -> (b, b) -> (c, c)` into `(b -> c) -> (b, b) -> (c, c)`. More generally:
 
 ```
 λ> :t join (***)

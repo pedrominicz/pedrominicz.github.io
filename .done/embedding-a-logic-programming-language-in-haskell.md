@@ -92,7 +92,7 @@ disj :: Prop -> Prop -> Prop
 disj p q = \s -> p s ++ q s
 ```
 
-Conjunction uses `(>>=)` for the list monad. For lists, `(>>=)` is equivalent to `\x f -> concat $ map f x`, which is what we want. We apply the second proposition to all outputs of the first. If the first proposition fails, there is nothing to apply to the second, and it returns an empty list. If the second proposition fails for some input, it returns the empty list, which disappears after `concat`.
+Conjunction uses `(>>=)` for the list monad. For lists, `(>>=)` is equivalent to `\x f -> concat $ map f x`, which is what we want. We apply the second proposition to all outputs of the first. If the first proposition fails, there is nothing to apply to the second and we return the empty list. If the second proposition fails for some input, it returns the empty list, which disappears after `concat`.
 
 Disjunction is simpler. It just appends the output of the first and second propositions. Note that using `(++)` makes us do depth-first search, like Prolog. If the first proposition returns an infinite list, the result of the second one is never considered.
 
@@ -141,8 +141,9 @@ We can make a recursive proposition by using a recursive function. `as` generate
 [[(0,Atom "a")],[(0,Atom "a")],[(0,Atom "a")],[(0,Atom "a")]]
 ```
 
-That is all I have for today. I hope to write more about unification, logic, and programming languages in the future!
+That is all I have for today. I hope to write more about unification, logic and programming languages in the future! Meanwhile, you can try extending μKanren with the more elaborate terms and unification shown in [another post][4].
 
 [1]: http://webyrd.net/scheme-2013/papers/HemannMuKanren2013.pdf
 [2]: https://github.com/seantalts/hasktrip/blob/master/doc/MicroKanren.md
 [3]: https://hackage.haskell.org/package/unification-fd
+[4]: /unification-in-75-lines-of-haskell

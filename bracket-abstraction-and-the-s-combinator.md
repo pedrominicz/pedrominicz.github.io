@@ -137,9 +137,12 @@ c x y z = x z y
 
 It is common to think of B as function composition and C as `flip`. But now we have a new perspective. The B combinator generalizes function application with an environment that only applies to the argument and the C combinator generalizes function application with an environment that only applies to the function.
 
+That is it for now! You can see the S combinator appear in a seemingly completely different context in [another post][1].
+
 ---
 
-If you are interested in reading more, I recommend reading [Bracket abstraction algorithms][1]. It is a great tutorial with interactive examples of many bracket abstraction algorithms. I also recommend Oleg Kiselyov's paper [λ to SKI, Semantically][2]. It shows an effective algorithm for compiling lambda calculus to combinator calculus.
+If you are interested in reading more, I recommend reading [Bracket abstraction algorithms][2]. It is a great tutorial with interactive examples of many bracket abstraction algorithms. I also recommend Oleg Kiselyov's paper [λ to SKI, Semantically][3]. It shows an effective algorithm for compiling lambda calculus to combinator calculus.
 
-[1]: https://www.cantab.net/users/antoni.diller/brackets/intro.html
-[2]: https://okmij.org/ftp/tagless-final/ski.pdf
+[1]: /fun-with-the-function-arrow-monad
+[2]: https://www.cantab.net/users/antoni.diller/brackets/intro.html
+[3]: https://okmij.org/ftp/tagless-final/ski.pdf

@@ -117,7 +117,7 @@ zipExact _ _ = empty
 
 And that is it!
 
-As an exercise, try adding unification to the implementation of μKanren shown in [another post][1]. [This Gist][4] contains examples of unification in action.
+As an exercise, try adding the unification shown here to the implementation of μKanren shown in [another post][1]. [This Gist][4] contains examples of unification in action.
 
 ```
 λ> term1 = Term "q" [Term "g" [Var 1], Term "f" [Var 2]]
