@@ -15,16 +15,6 @@ Interesting resources:
 - [Applicative programming with effects][11] section 7
 - [Applicative Functors][12]
 
-**Compiling λ-terms to SKI combinator calculus**
-
-I should try to figure this out by myself before reading how to do so. The first link below should give enough of a hint.
-
-Interesting resources:
-- [Physics, Topology, Logic and Computation: A Rosetta Stone][7] section 4.3
-- [Fun with Combinators][9]
-- [A Combinatory Compiler][8]
-- [λ to SKI, Semantically][10]
-
 ### Low priority
 - [An unsolvable problem of elementary number theory][3]
 - [Deriving the Y combinator][4]
