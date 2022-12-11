@@ -2,7 +2,7 @@ This directory should contain work in progress blog posts. Completed posts shoul
 
 ### Todo
 
-- Write more stuff!
+- Proofread "Bracket abstraction and the S combinator"
 - Make already visited links a different color
 
 ### Ideas
@@ -24,9 +24,5 @@ Interesting resources:
 [3]: https://www.ics.uci.edu/~lopes/teaching/inf212W12/readings/church.pdf
 [4]: https://homes.cs.washington.edu/~sorawee/en/blog/2017/10-05-deriving-Y.html
 [5]: http://fm.csl.sri.com/SSFT15/Timeline.pages.pdf
-[7]: https://arxiv.org/pdf/0903.0340.pdf
-[8]: http://www-cs-students.stanford.edu/~blynn/lambda/sk.html
-[9]: https://doisinkidney.com/posts/2020-10-17-ski.html
-[10]: http://okmij.org/ftp/tagless-final/ski.pdf
 [11]: http://www.staff.city.ac.uk/~ross/papers/Applicative.pdf
 [12]: https://bartoszmilewski.com/2017/02/06/applicative-functors/
