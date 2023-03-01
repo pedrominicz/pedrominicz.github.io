@@ -1,6 +1,6 @@
 This directory should contain work in progress blog posts. Completed posts should be moved to `.done`. Every post should be proofread.
 
-### Todo
+### To-do
 
 - Proofread "Bracket abstraction and the S combinator"
 - Make already visited links a different color
